@@ -3,6 +3,8 @@
 import UIKit
 
 class ProfileDesignViewController: UIViewController {
+    // MARK: - 프로필 이미지 뷰, 그림자 뷰
+
     // 프로필 이미지뷰
     private lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -36,7 +38,9 @@ class ProfileDesignViewController: UIViewController {
         return view
     }()
 
-    // 게시 숫자 라벨
+    // MARK: - 게시글, 팔로우, 팔로잉
+
+    // 게시글 숫자 라벨
     private lazy var postNumberLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -48,20 +52,20 @@ class ProfileDesignViewController: UIViewController {
         return label
     }()
 
-    // 게시 라벨
+    // 게시글 라벨
     private lazy var postLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
 
         label.text = "게시"
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = UIFont.systemFont(ofSize: 13)
 
         return label
     }()
 
     // 팔로우 숫자 라벨
-    private lazy var followNumberLabel: UILabel = {
+    private lazy var followerNumberLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
 
@@ -72,14 +76,14 @@ class ProfileDesignViewController: UIViewController {
         return label
     }()
 
-    // 팔로우 라벨
-    private lazy var followLabel: UILabel = {
+    // 팔로워 라벨
+    private lazy var followerLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
 
-        label.text = "팔로우"
+        label.text = "팔로워"
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = UIFont.systemFont(ofSize: 13)
 
         return label
     }()
@@ -103,10 +107,12 @@ class ProfileDesignViewController: UIViewController {
 
         label.text = "팔로잉"
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = UIFont.systemFont(ofSize: 13)
 
         return label
     }()
+
+    // MARK: - 이름, 소개, 링크
 
     // 이름 라벨
     private lazy var nameLabel: UILabel = {
@@ -115,7 +121,7 @@ class ProfileDesignViewController: UIViewController {
 
         label.text = "성준"
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 13)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
 
         return label
     }()
@@ -125,9 +131,9 @@ class ProfileDesignViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
 
-        label.text = "소개"
+        label.text = "소개 텍스트"
         label.textColor = .black
-        label.font = UIFont.systemFont(ofSize: 13)
+        label.font = UIFont.systemFont(ofSize: 14)
 
         return label
     }()
@@ -137,8 +143,8 @@ class ProfileDesignViewController: UIViewController {
         let textView = LinkTextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
 
-        // "내 인스타 링크"라는 문자열을 생성하고, 이 문자열에 하이퍼링크 속성을 추가합니다.
-        let attributedString = NSMutableAttributedString(string: "instagram link")
+        // 링크 추가
+        let attributedString = NSMutableAttributedString(string: "My Instagram Link")
 
         if let url = URL(string: "https://instagram.com/s_____j05?igshid=NGVhN2U2NjQ0Yg==") {
             attributedString.setAttributes([.link: url], range: NSMakeRange(0, attributedString.length))
@@ -146,7 +152,7 @@ class ProfileDesignViewController: UIViewController {
             textView.attributedText = attributedString
             textView.linkTextAttributes = [
                 .foregroundColor: UIColor.systemBlue,
-                .font: UIFont.systemFont(ofSize: 13),
+                .font: UIFont.systemFont(ofSize: 14),
             ]
 
             // 추가 설정
@@ -159,9 +165,80 @@ class ProfileDesignViewController: UIViewController {
         }
     }()
 
+    // MARK: - 팔로우, 메세지, 아래 화살표 버튼
+
+    // 팔로우 버튼
+    private lazy var followButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        button.setTitleColor(.black, for: .normal)
+        button.setTitle("팔로우", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Helvetica", size: 15)
+
+        // 버튼 디자인
+        button.backgroundColor = UIColor.systemGray5
+        button.layer.borderColor = UIColor.clear.cgColor
+        button.layer.borderWidth = 0
+        button.layer.cornerRadius = 5
+
+        button.addTarget(self, action: #selector(followButtonTapped), for: .touchUpInside)
+
+        return button
+    }()
+
+    // 메세지 버튼
+    private lazy var messageButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        button.setTitleColor(.black, for: .normal)
+        button.setTitle("메세지", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Helvetica", size: 15)
+
+        // 버튼 디자인
+        button.backgroundColor = UIColor.systemGray5
+        button.layer.borderColor = UIColor.clear.cgColor
+        button.layer.borderWidth = 0
+        button.layer.cornerRadius = 5
+
+        button.addTarget(self, action: #selector(messageButtonTapped), for: .touchUpInside)
+
+        return button
+    }()
+
+    // 아래 화살표 버튼
+    private lazy var arrowButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        if let downArrowImage = UIImage(named: "downArrow") {
+            let downArrowImageSize = CGSize(width: 17, height: 17)
+            UIGraphicsBeginImageContextWithOptions(downArrowImageSize, false, UIScreen.main.scale)
+            downArrowImage.draw(in: CGRect(origin: .zero, size: downArrowImageSize))
+
+            if let resizedDownArrowImage = UIGraphicsGetImageFromCurrentImageContext() {
+                UIGraphicsEndImageContext()
+                button.setImage(resizedDownArrowImage.withRenderingMode(.alwaysOriginal), for: .normal)
+            } else {
+                UIGraphicsEndImageContext()
+            }
+        }
+
+        // 버튼 디자인
+        button.backgroundColor = UIColor.systemGray5
+        button.layer.borderColor = UIColor.clear.cgColor
+        button.layer.borderWidth = 0
+        button.layer.cornerRadius = 5
+
+        button.addTarget(self, action: #selector(arrowButtonTapped), for: .touchUpInside)
+
+        return button
+    }()
+
     // MARK: - 스택뷰
 
-    // 1. 프로필 이미지
+    // 1. 프로필 이미지, 게시글, 팔로워, 팔로잉 스택뷰
     private lazy var profileStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [shadowView, numberStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -173,13 +250,49 @@ class ProfileDesignViewController: UIViewController {
         return stackView
     }()
 
-    // 2. 게시, 팔로우, 팔로잉 스택뷰
+    // 게시글 스택뷰
+    private lazy var postStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [postNumberLabel, postLabel])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
+        stackView.alignment = .center
+        stackView.axis = .vertical
+        stackView.spacing = 2
+
+        return stackView
+    }()
+
+    // 팔로워 스택뷰
+    private lazy var followStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [followerNumberLabel, followerLabel])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
+        stackView.alignment = .center
+        stackView.axis = .vertical
+        stackView.spacing = 2
+
+        return stackView
+    }()
+
+    // 팔로잉 스택뷰
+    private lazy var followingStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [followingNumberLabel, followingLabel])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
+        stackView.alignment = .center
+        stackView.axis = .vertical
+        stackView.spacing = 2
+
+        return stackView
+    }()
+
+    // 2. 게시글, 팔로워, 팔로잉 스택뷰
     private lazy var numberStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [postStackView, followStackView, followingStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
         stackView.axis = .horizontal
-        stackView.spacing = 50
+        stackView.spacing = 45
 
         return stackView
     }()
@@ -195,38 +308,13 @@ class ProfileDesignViewController: UIViewController {
         return stackView
     }()
 
-    // 게시 스택뷰
-    private lazy var postStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [postNumberLabel, postLabel])
+    // 4. 팔로우 , 메세지, 아래화살표 버튼 스택뷰
+    private lazy var buttonStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [followButton, messageButton, arrowButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
-        stackView.alignment = .center
-        stackView.axis = .vertical
-        stackView.spacing = 1
-
-        return stackView
-    }()
-
-    // 팔로우 스택뷰
-    private lazy var followStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [followNumberLabel, followLabel])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-
-        stackView.alignment = .center
-        stackView.axis = .vertical
-        stackView.spacing = 1
-
-        return stackView
-    }()
-
-    // 팔로잉 스택뷰
-    private lazy var followingStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [followingNumberLabel, followingLabel])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-
-        stackView.alignment = .center
-        stackView.axis = .vertical
-        stackView.spacing = 1
+        stackView.axis = .horizontal
+        stackView.spacing = 7
 
         return stackView
     }()
@@ -248,6 +336,7 @@ class ProfileDesignViewController: UIViewController {
         shadowView.addSubview(profileImageView)
         view.addSubview(shadowView)
 
+        view.addSubview(buttonStackView)
         view.addSubview(introduceStackView)
         view.addSubview(numberStackView)
         view.addSubview(profileStackView)
@@ -287,9 +376,15 @@ class ProfileDesignViewController: UIViewController {
         let safeArea = view.safeAreaLayoutGuide
 
         NSLayoutConstraint.activate([
+            // 프로필 스택뷰 (프로필 이미지, 게시글, 팔로워, 팔로잉)
+            profileStackView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
+            profileStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            profileStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
+            profileStackView.heightAnchor.constraint(equalToConstant: 100),
+
             // 그림자 뷰
-            shadowView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
-            shadowView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 30),
+            shadowView.topAnchor.constraint(equalTo: profileStackView.topAnchor),
+            shadowView.leadingAnchor.constraint(equalTo: profileStackView.leadingAnchor),
             shadowView.widthAnchor.constraint(equalToConstant: 100),
             shadowView.heightAnchor.constraint(equalToConstant: 100),
 
@@ -299,15 +394,32 @@ class ProfileDesignViewController: UIViewController {
             profileImageView.trailingAnchor.constraint(equalTo: shadowView.trailingAnchor),
             profileImageView.bottomAnchor.constraint(equalTo: shadowView.bottomAnchor),
 
-            // 프로필 스택 뷰
+            // 프로필 스택 뷰 (게시글, 팔로워, 팔로잉)
             numberStackView.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor),
 
-            // 소개 스택 뷰
+            // 소개 스택 뷰 (이름, 소개, 링크)
             introduceStackView.topAnchor.constraint(equalTo: shadowView.bottomAnchor, constant: 20),
-            introduceStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 30),
-            introduceStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            introduceStackView.heightAnchor.constraint(equalToConstant: 80),
+            introduceStackView.leadingAnchor.constraint(equalTo: profileStackView.leadingAnchor, constant: 5),
+            introduceStackView.trailingAnchor.constraint(equalTo: profileStackView.trailingAnchor),
+            introduceStackView.heightAnchor.constraint(equalToConstant: 70),
 
+            // 버튼 스택 뷰
+            buttonStackView.topAnchor.constraint(equalTo: introduceStackView.bottomAnchor, constant: 10),
+            buttonStackView.leadingAnchor.constraint(equalTo: introduceStackView.leadingAnchor),
+            buttonStackView.trailingAnchor.constraint(equalTo: introduceStackView.trailingAnchor),
+            buttonStackView.heightAnchor.constraint(equalToConstant: 30),
+
+            // 팔로우 버튼
+            followButton.widthAnchor.constraint(equalToConstant: 150),
+            followButton.heightAnchor.constraint(equalToConstant: 30),
+
+            // 메세지 버튼
+            messageButton.widthAnchor.constraint(equalToConstant: 150),
+            messageButton.heightAnchor.constraint(equalToConstant: 30),
+
+            // 아래화살표 버튼
+            arrowButton.widthAnchor.constraint(equalToConstant: 30),
+            arrowButton.heightAnchor.constraint(equalToConstant: 30),
         ])
     }
 
@@ -334,6 +446,19 @@ class ProfileDesignViewController: UIViewController {
             profileImageView.image = selectedImage
             dismiss(animated: true, completion: nil)
         }
+    }
+
+    // 팔로우 버튼 눌렀을때
+    @objc func followButtonTapped() {
+        //
+    }
+
+    @objc func messageButtonTapped() {
+        //
+    }
+
+    @objc func arrowButtonTapped() {
+        //
     }
 }
 

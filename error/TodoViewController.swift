@@ -130,7 +130,6 @@ class TodoViewController: UIViewController {
 }
 
 // MARK: TodoViewController 클래스 끝
-
 // MARK: - 클래스로 셀 생성
 
 class TodoTableViewCell: UITableViewCell {

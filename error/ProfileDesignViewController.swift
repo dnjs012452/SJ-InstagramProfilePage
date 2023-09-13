@@ -236,6 +236,50 @@ class ProfileDesignViewController: UIViewController {
         return button
     }()
 
+    // MARK: - 게시글/태그된 게시글 선택 버튼
+
+    // 게시글 버튼
+    private lazy var postsButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        button.setTitleColor(.black, for: .normal)
+        button.setTitle("게시글", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Helvetica", size: 15)
+
+        // 버튼 디자인
+        button.backgroundColor = UIColor.systemBackground
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 5
+
+        // 기능 추가
+        button.addTarget(self, action: #selector(postsButtonTapped), for: .touchUpInside)
+
+        return button
+    }()
+
+    // 태그된 게시글 버튼
+    private lazy var taggedPostsButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        button.setTitleColor(.black, for: .normal)
+        button.setTitle("태그된 게시글", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Helvetica", size: 15)
+
+        // 버튼 디자인
+        button.backgroundColor = UIColor.systemBackground
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 5
+
+        // 기능추가
+        button.addTarget(self, action: #selector(taggedPostsButtonTapped), for: .touchUpInside)
+
+        return button
+    }()
+
     // MARK: - 스택뷰
 
     // 1. 프로필 이미지, 게시글, 팔로워, 팔로잉 스택뷰
@@ -319,6 +363,61 @@ class ProfileDesignViewController: UIViewController {
         return stackView
     }()
 
+    // 5. 게시글/태그된 게시글 버튼 스택뷰
+    private lazy var selectionStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [postsButton, taggedPostsButton])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+
+        stackView.axis = .horizontal
+        stackView.spacing = 5
+
+        return stackView
+    }()
+
+    // MARK: - 게시글/태그된 게시글 컬렉션뷰
+
+    // 게시글 컬렉션뷰
+    private lazy var postsCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 1
+        layout.minimumInteritemSpacing = 1
+        layout.itemSize = CGSize(width: (view.frame.size.width - 2) / 3, height: (view.frame.size.width - 2) / 3)
+
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .white
+
+        // 셀 등록
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "postCell")
+
+        // 데이터 소스 및 델리게이트 설정
+        collectionView.dataSource = self
+        collectionView.delegate = self
+
+        return collectionView
+    }()
+
+    // 태그된 게시글
+    private lazy var taggedPostsCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 1
+        layout.minimumInteritemSpacing = 1
+        layout.itemSize = CGSize(width: (view.frame.size.width - 2) / 3, height: (view.frame.size.width - 2) / 3)
+
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .white
+
+        // 셀 등록
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "postCell")
+
+        // 데이터 소스 및 델리게이트 설정
+        collectionView.dataSource = self
+        collectionView.delegate = self
+
+        return collectionView
+    }()
+
     // MARK: - viewDidLoad
 
     override func viewDidLoad() {
@@ -328,6 +427,9 @@ class ProfileDesignViewController: UIViewController {
         setupNavigationBar()
         setupViews()
         setUpConstraints()
+
+        postsCollectionView.isHidden = false
+        taggedPostsCollectionView.isHidden = true
     }
 
     // MARK: - 화면 보여지게 하는 곳
@@ -335,11 +437,13 @@ class ProfileDesignViewController: UIViewController {
     private func setupViews() {
         shadowView.addSubview(profileImageView)
         view.addSubview(shadowView)
-
+        view.addSubview(selectionStackView)
         view.addSubview(buttonStackView)
         view.addSubview(introduceStackView)
         view.addSubview(numberStackView)
         view.addSubview(profileStackView)
+        view.addSubview(postsCollectionView)
+        view.addSubview(taggedPostsCollectionView)
     }
 
     // 상단 바
@@ -420,6 +524,30 @@ class ProfileDesignViewController: UIViewController {
             // 아래화살표 버튼
             arrowButton.widthAnchor.constraint(equalToConstant: 30),
             arrowButton.heightAnchor.constraint(equalToConstant: 30),
+
+            // 선택버튼 스택뷰
+            selectionStackView.topAnchor.constraint(equalTo: buttonStackView.bottomAnchor, constant: 20),
+            selectionStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            selectionStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            selectionStackView.heightAnchor.constraint(equalToConstant: 40),
+
+            // 게시글 버튼
+            postsButton.widthAnchor.constraint(equalTo: selectionStackView.widthAnchor, multiplier: 0.5, constant: -2.5),
+
+            // 태그된 게시글 버튼
+            taggedPostsButton.widthAnchor.constraint(equalTo: selectionStackView.widthAnchor, multiplier: 0.5, constant: -2.5),
+
+            // 게시글 콜렉션 뷰
+            postsCollectionView.topAnchor.constraint(equalTo: selectionStackView.bottomAnchor, constant: 10),
+            postsCollectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            postsCollectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            postsCollectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+
+            // 태그된 게시글 콜렉션뷰
+            taggedPostsCollectionView.topAnchor.constraint(equalTo: selectionStackView.bottomAnchor, constant: 10),
+            taggedPostsCollectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            taggedPostsCollectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            taggedPostsCollectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
         ])
     }
 
@@ -460,6 +588,18 @@ class ProfileDesignViewController: UIViewController {
     @objc func arrowButtonTapped() {
         //
     }
+
+    // 게시글 버튼 눌렀을때
+    @objc func postsButtonTapped() {
+        postsCollectionView.isHidden = false
+        taggedPostsCollectionView.isHidden = true
+    }
+
+    // 태그된 게시글 버튼 눌렀을때
+    @objc func taggedPostsButtonTapped() {
+        postsCollectionView.isHidden = true
+        taggedPostsCollectionView.isHidden = false
+    }
 }
 
 // MARK: -
@@ -469,6 +609,28 @@ extension ProfileDesignViewController: UIImagePickerControllerDelegate {
 }
 
 extension ProfileDesignViewController: UINavigationControllerDelegate {
+    //
+}
+
+extension ProfileDesignViewController: UICollectionViewDataSource {
+    func numberOfSections(incollectionView: UICollectionView) -> Int {
+        return 1
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        18 // 게시글 갯수
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath)
+
+        cell.backgroundColor = UIColor.lightGray
+
+        return cell
+    }
+}
+
+extension ProfileDesignViewController: UICollectionViewDelegateFlowLayout {
     //
 }
 

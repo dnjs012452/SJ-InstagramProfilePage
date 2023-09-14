@@ -131,7 +131,7 @@ class ProfileDesignViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
 
-        label.text = "소개 텍스트"
+        label.text = "코딩으아아아아아아"
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 14)
 
@@ -243,14 +243,22 @@ class ProfileDesignViewController: UIViewController {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
 
-        button.setTitleColor(.black, for: .normal)
-        button.setTitle("게시글", for: .normal)
-        button.titleLabel?.font = UIFont(name: "Helvetica", size: 15)
+        if let downArrowImage = UIImage(named: "grid") {
+            let downArrowImageSize = CGSize(width: 30, height: 30)
+            UIGraphicsBeginImageContextWithOptions(downArrowImageSize, false, UIScreen.main.scale)
+            downArrowImage.draw(in: CGRect(origin: .zero, size: downArrowImageSize))
 
+            if let resizedDownArrowImage = UIGraphicsGetImageFromCurrentImageContext() {
+                UIGraphicsEndImageContext()
+                button.setImage(resizedDownArrowImage.withRenderingMode(.alwaysOriginal), for: .normal)
+            } else {
+                UIGraphicsEndImageContext()
+            }
+        }
         // 버튼 디자인
         button.backgroundColor = UIColor.systemBackground
         button.layer.borderColor = UIColor.black.cgColor
-        button.layer.borderWidth = 1
+        button.layer.borderWidth = 0
         button.layer.cornerRadius = 5
 
         // 기능 추가
@@ -271,13 +279,23 @@ class ProfileDesignViewController: UIViewController {
         // 버튼 디자인
         button.backgroundColor = UIColor.systemBackground
         button.layer.borderColor = UIColor.black.cgColor
-        button.layer.borderWidth = 1
+        button.layer.borderWidth = 0
         button.layer.cornerRadius = 5
 
         // 기능추가
         button.addTarget(self, action: #selector(taggedPostsButtonTapped), for: .touchUpInside)
 
         return button
+    }()
+
+    // 게시글/태그된 게시글 선택버튼 아래 선 - View
+    private lazy var highlightView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        view.backgroundColor = .black
+
+        return view
     }()
 
     // MARK: - 스택뷰
@@ -444,7 +462,10 @@ class ProfileDesignViewController: UIViewController {
         view.addSubview(profileStackView)
         view.addSubview(postsCollectionView)
         view.addSubview(taggedPostsCollectionView)
+        selectionStackView.addSubview(highlightView)
     }
+
+    // MARK: - 상단바 아이템
 
     // 상단 바
     private func setupNavigationBar() {
@@ -511,7 +532,7 @@ class ProfileDesignViewController: UIViewController {
             buttonStackView.topAnchor.constraint(equalTo: introduceStackView.bottomAnchor, constant: 10),
             buttonStackView.leadingAnchor.constraint(equalTo: introduceStackView.leadingAnchor),
             buttonStackView.trailingAnchor.constraint(equalTo: introduceStackView.trailingAnchor),
-            buttonStackView.heightAnchor.constraint(equalToConstant: 30),
+            buttonStackView.heightAnchor.constraint(equalToConstant: 26),
 
             // 팔로우 버튼
             followButton.widthAnchor.constraint(equalToConstant: 150),
@@ -522,8 +543,8 @@ class ProfileDesignViewController: UIViewController {
             messageButton.heightAnchor.constraint(equalToConstant: 30),
 
             // 아래화살표 버튼
-            arrowButton.widthAnchor.constraint(equalToConstant: 30),
-            arrowButton.heightAnchor.constraint(equalToConstant: 30),
+            arrowButton.widthAnchor.constraint(equalToConstant: 26),
+            arrowButton.heightAnchor.constraint(equalToConstant: 26),
 
             // 선택버튼 스택뷰
             selectionStackView.topAnchor.constraint(equalTo: buttonStackView.bottomAnchor, constant: 20),
@@ -548,6 +569,12 @@ class ProfileDesignViewController: UIViewController {
             taggedPostsCollectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             taggedPostsCollectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             taggedPostsCollectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+
+            // 하이라이트뷰 (게시글/태그된 게시글 선택버튼 아래 선)
+            highlightView.bottomAnchor.constraint(equalTo: selectionStackView.bottomAnchor),
+            highlightView.heightAnchor.constraint(equalToConstant: 1),
+            highlightView.widthAnchor.constraint(equalTo: postsButton.widthAnchor),
+            highlightView.centerXAnchor.constraint(equalTo: postsButton.centerXAnchor),
         ])
     }
 
@@ -593,12 +620,24 @@ class ProfileDesignViewController: UIViewController {
     @objc func postsButtonTapped() {
         postsCollectionView.isHidden = false
         taggedPostsCollectionView.isHidden = true
+
+        // 각 버튼을 클릭할 때마다 highlightView의 중심점 x 좌표가 해당 버튼의 중심점 x 좌표로 이동하도록 애니메이션을 추가.
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            guard let self = self else { return }
+            self.highlightView.center.x = self.postsButton.center.x
+        }
     }
 
     // 태그된 게시글 버튼 눌렀을때
     @objc func taggedPostsButtonTapped() {
         postsCollectionView.isHidden = true
         taggedPostsCollectionView.isHidden = false
+
+        // 각 버튼을 클릭할 때마다 highlightView의 중심점 x 좌표가 해당 버튼의 중심점 x 좌표로 이동하도록 애니메이션을 추가.
+        UIView.animate(withDuration: 0.2) { [weak self] in
+            guard let self = self else { return }
+            self.highlightView.center.x = self.taggedPostsButton.center.x
+        }
     }
 }
 
@@ -631,7 +670,13 @@ extension ProfileDesignViewController: UICollectionViewDataSource {
 }
 
 extension ProfileDesignViewController: UICollectionViewDelegateFlowLayout {
-    //
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if collectionView == postsCollectionView {
+            cell.backgroundColor = .systemGray3
+        } else if collectionView == taggedPostsCollectionView {
+            cell.backgroundColor = .systemGray5
+        }
+    }
 }
 
 // 링크 텍스트뷰 패딩 값 없애기

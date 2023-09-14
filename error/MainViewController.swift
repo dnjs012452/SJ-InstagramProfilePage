@@ -38,8 +38,13 @@ class MainViewController: UIViewController {
         
         button.setTitle("할일 확인하기", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        // button.tintColor = .black
         button.titleLabel?.font = UIFont(name: "Helvetica", size: 17)
+        
+//        button.backgroundColor = UIColor.systemGray5
+//        button.layer.borderColor = UIColor.systemBackground.cgColor
+//        button.layer.borderWidth = 1
+//        button.layer.cornerRadius = 5
+        
         button.addTarget(self, action: #selector(todoGoButtonTapped), for: .touchUpInside)
         
         return button
@@ -53,6 +58,12 @@ class MainViewController: UIViewController {
         button.setTitleColor(.black, for: .normal)
         button.setTitle("완료된일 보기", for: .normal)
         button.titleLabel?.font = UIFont(name: "Helvetica", size: 17)
+        
+//        button.backgroundColor = UIColor.systemGray5
+//        button.layer.borderColor = UIColor.systemBackground.cgColor
+//        button.layer.borderWidth = 1
+//        button.layer.cornerRadius = 5
+        
         button.addTarget(self, action: #selector(doneGoButtonTapped), for: .touchUpInside)
         
         return button
@@ -65,6 +76,12 @@ class MainViewController: UIViewController {
         button.setTitleColor(.black, for: .normal)
         button.setTitle("프로필 페이지", for: .normal)
         button.titleLabel?.font = UIFont(name: "Helvetica", size: 17)
+        
+//        button.backgroundColor = UIColor.systemGray5
+//        button.layer.borderColor = UIColor.systemBackground.cgColor
+//        button.layer.borderWidth = 1
+//        button.layer.cornerRadius = 5
+        
         button.addTarget(self, action: #selector(profilePageButtonTapped), for: .touchUpInside)
         
         return button

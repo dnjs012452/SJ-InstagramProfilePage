@@ -126,6 +126,8 @@
 				Base,
 			);
 			mainGroup = C7F650222AB064FB000BDDAF;
+			packageReferences = (
+			);
 			productRefGroup = C7F6502C2AB064FB000BDDAF /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

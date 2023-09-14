@@ -36,6 +36,7 @@ class TodoViewController: UIViewController {
 
         addTodoTableView.register(TodoTableViewCell.self, forCellReuseIdentifier: "TodoCell")
         addTodoTableView.dataSource = self
+        addTodoTableView.delegate = self
 
         setupNavigationBar()
         setupViews()
@@ -269,24 +270,24 @@ class TodoTableViewCell: UITableViewCell {
 
 // MARK: - 헤더, 푸터
 
-extension TodoViewController {
+extension TodoViewController: UITableViewDelegate {
     func numberOfSections(in tableView: UITableView)->Int {
         return sections.count
     }
 
-    func tableView(_tableView: UITableView, titleForHeaderInSection section: Int)->String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int)->String? {
         return sections[section]
     }
 
-    func tableView(_tableView: UITableView, heightForHeaderInSection section: Int)->CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int)->CGFloat {
         return 50
     }
 
-    func tableView(_tableView: UITableView, heightForFooterInSection section: Int)->CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int)->CGFloat {
         return 0
     }
 
-    func tableView(_tableView: UITableView, viewForHeaderInSection section: Int)->UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int)->UIView? {
         let headerView = UIView()
         headerView.backgroundColor = .clear
 
@@ -294,7 +295,7 @@ extension TodoViewController {
         label.text = sections[section]
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = .black
-        label.frame = CGRect(x: 15, y: 5, width: _tableView.bounds.size.width - 30, height: 25)
+        label.frame = CGRect(x: 15, y: 5, width: tableView.bounds.size.width - 30, height: 25)
 
         headerView.addSubview(label)
 

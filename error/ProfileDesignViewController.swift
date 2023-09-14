@@ -32,7 +32,7 @@ class ProfileDesignViewController: UIViewController {
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.4
         view.layer.shadowOffset = CGSize(width: 2, height: 2)
-        view.layer.shadowRadius = 7
+        view.layer.shadowRadius = 5
         view.layer.cornerRadius = 50
 
         return view

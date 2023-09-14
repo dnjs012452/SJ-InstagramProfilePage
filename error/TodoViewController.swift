@@ -124,7 +124,7 @@ class TodoViewController: UIViewController {
     }
 
     func presentSectionSelectionAlert() {
-        let alertController = UIAlertController(title: "section menu", message: nil, preferredStyle: .alert)
+        let alertController = UIAlertController(title: "section menu", message: nil, preferredStyle: .actionSheet)
 
         // 선택 버튼
         let selectAction = UIAlertAction(title: "섹션 선택", style: .default) { [weak self] _ in
@@ -153,24 +153,23 @@ class TodoViewController: UIViewController {
         present(alertController, animated: true)
     }
 
+    // 섹션 선택 알럿창
     func selectSection() {
-        let alertContoller = UIAlertController(title: "섹션 선택", message: nil, preferredStyle: .alert)
-        for section in sections {
-            let selectAction = UIAlertAction(title: "\(section)", style: .default) { _ in
-                // 여기에 선택한 섹션에 대한 처리를 작성.
-            }
-            alertContoller.addAction(selectAction)
-        }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
-            // 여기에 확인 버튼이 눌렸을 때의 동작을 작성.
-        }
+        let alert = UIAlertController(title: "섹션 선택", message: "\n\n\n\n\n\n", preferredStyle: .alert)
+        let pickerView = UIPickerView(frame: CGRect(x: 5, y: 20, width: 250, height: 140))
+        alert.view.addSubview(pickerView)
+        pickerView.dataSource = self
+        pickerView.delegate = self
 
-        alertContoller.addAction(cancelAction)
-        alertContoller.addAction(confirmAction)
-        present(alertContoller, animated: true)
+        alert.addAction(UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+            let selectedRow = pickerView.selectedRow(inComponent: 0)
+            print("선택완료")
+        })
+
+        present(alert, animated: true, completion: nil)
     }
 
+    // 섹션 추가 알럿창
     func addSection() {
         let alertContoller = UIAlertController(title: "새로운 섹션", message: "섹션 이름을 작성해주세요.", preferredStyle: .alert)
 
@@ -196,9 +195,10 @@ class TodoViewController: UIViewController {
 
         alertContoller.addAction(saveAction)
 
-        present(alertContoller, animated: true)
+        present(alertContoller, animated: true, completion: nil)
     }
 
+    // 섹션 삭제 알럿창
     func deleteSection() {
         var actions: [UIAlertAction] = []
 
@@ -223,18 +223,18 @@ class TodoViewController: UIViewController {
         }
 
         actions.append(UIAlertAction(title: "취소", style: .cancel))
-        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
-            // 여기에 확인 버튼이 눌렸을 때의 동작을 작성.
-        }
+//        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+//            // 여기에 확인 버튼이 눌렸을 때의 동작을 작성.
+//        }
         let alert = UIAlertController(
             title: "섹션 삭제",
             message: "삭제할 섹션을 선택해주세요.",
-            preferredStyle: UIAlertController.Style.alert
+            preferredStyle: UIAlertController.Style.actionSheet
         )
 
         for action: UIAlertAction in actions { alert.addAction(action) }
 
-        alert.addAction(confirmAction) // 확인 액션 추가
+        // alert.addAction(confirmAction) // 확인 액션 추가
         present(alert, animated: true, completion: nil)
     }
 
@@ -323,5 +323,19 @@ extension TodoViewController: UITableViewDataSource {
         // 여기에서 각 셀의 내용을 설정합니다.
 
         return cell
+    }
+}
+
+extension TodoViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView)->Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int)->Int {
+        return sections.count
+    }
+
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int)->String? {
+        return sections[row]
     }
 }

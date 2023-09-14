@@ -127,7 +127,7 @@ class MainViewController: UIViewController {
     // MARK: - 레이아웃
     
     private func setUpConstraints() {
-        let safeArea = view.safeAreaLayoutGuide
+        var safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
             // imagetouch 라벨

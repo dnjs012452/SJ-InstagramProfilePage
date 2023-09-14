@@ -131,7 +131,7 @@ class ProfileDesignViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
 
-        label.text = "코딩으아아아아아아"
+        label.text = "코딩으아아아아아 ㅈ빡치네ㄴ 그만 괴롭혀"
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 14)
 
@@ -272,10 +272,18 @@ class ProfileDesignViewController: UIViewController {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
 
-        button.setTitleColor(.black, for: .normal)
-        button.setTitle("태그된 게시글", for: .normal)
-        button.titleLabel?.font = UIFont(name: "Helvetica", size: 15)
+        if let downArrowImage = UIImage(named: "taggedImage") {
+            let downArrowImageSize = CGSize(width: 25, height: 25)
+            UIGraphicsBeginImageContextWithOptions(downArrowImageSize, false, UIScreen.main.scale)
+            downArrowImage.draw(in: CGRect(origin: .zero, size: downArrowImageSize))
 
+            if let resizedDownArrowImage = UIGraphicsGetImageFromCurrentImageContext() {
+                UIGraphicsEndImageContext()
+                button.setImage(resizedDownArrowImage.withRenderingMode(.alwaysOriginal), for: .normal)
+            } else {
+                UIGraphicsEndImageContext()
+            }
+        }
         // 버튼 디자인
         button.backgroundColor = UIColor.systemBackground
         button.layer.borderColor = UIColor.black.cgColor
@@ -672,9 +680,9 @@ extension ProfileDesignViewController: UICollectionViewDataSource {
 extension ProfileDesignViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if collectionView == postsCollectionView {
-            cell.backgroundColor = .systemGray3
-        } else if collectionView == taggedPostsCollectionView {
             cell.backgroundColor = .systemGray5
+        } else if collectionView == taggedPostsCollectionView {
+            cell.backgroundColor = .systemGray3
         }
     }
 }

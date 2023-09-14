@@ -120,14 +120,15 @@ class TodoViewController: UIViewController {
 
     // 상단 섹션 버튼 눌렀을때
     @objc func sectionButtonTapped() {
-        let alertController = UIAlertController(title: "섹션 선택", message: nil, preferredStyle: .alert)
+        presentSectionSelectionAlert()
+    }
+
+    func presentSectionSelectionAlert() {
+        let alertController = UIAlertController(title: "section menu", message: nil, preferredStyle: .alert)
 
         // 선택 버튼
-        for section in sections {
-            let selectAction = UIAlertAction(title: "\(section)", style: .default) { _ in
-                // 여기에 선택한 섹션에 대한 처리를 작성합니다.
-            }
-            alertController.addAction(selectAction)
+        let selectAction = UIAlertAction(title: "섹션 선택", style: .default) { [weak self] _ in
+            self?.selectSection()
         }
 
         // 추가 버튼
@@ -135,21 +136,39 @@ class TodoViewController: UIViewController {
             self?.addSection()
         }
 
-        alertController.addAction(addAction)
-
-        // 삭제버튼
+        // 삭제 버튼
         let deleteAction = UIAlertAction(title: "섹션 삭제", style: .destructive) { [weak self] _ in
             self?.deleteSection()
         }
 
-        alertController.addAction(deleteAction)
-
-        // 취소버튼
+        // 취소 버튼
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
 
+        // 알럿 addAction
+        alertController.addAction(selectAction)
+        alertController.addAction(addAction)
+        alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
 
         present(alertController, animated: true)
+    }
+
+    func selectSection() {
+        let alertContoller = UIAlertController(title: "섹션 선택", message: nil, preferredStyle: .alert)
+        for section in sections {
+            let selectAction = UIAlertAction(title: "\(section)", style: .default) { _ in
+                // 여기에 선택한 섹션에 대한 처리를 작성.
+            }
+            alertContoller.addAction(selectAction)
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+            // 여기에 확인 버튼이 눌렸을 때의 동작을 작성.
+        }
+
+        alertContoller.addAction(cancelAction)
+        alertContoller.addAction(confirmAction)
+        present(alertContoller, animated: true)
     }
 
     func addSection() {
@@ -171,6 +190,7 @@ class TodoViewController: UIViewController {
 
             DispatchQueue.main.async {
                 self?.addTodoTableView.reloadData()
+                self?.presentSectionSelectionAlert()
             }
         }
 
@@ -203,16 +223,19 @@ class TodoViewController: UIViewController {
         }
 
         actions.append(UIAlertAction(title: "취소", style: .cancel))
-
-        let actionSheet = UIAlertController(
-            title: nil,
-            message: nil,
-            preferredStyle: UIAlertController.Style.actionSheet
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+            // 여기에 확인 버튼이 눌렸을 때의 동작을 작성.
+        }
+        let alert = UIAlertController(
+            title: "섹션 삭제",
+            message: "삭제할 섹션을 선택해주세요.",
+            preferredStyle: UIAlertController.Style.alert
         )
 
-        for action: UIAlertAction in actions { actionSheet.addAction(action) }
+        for action: UIAlertAction in actions { alert.addAction(action) }
 
-        present(actionSheet, animated: true, completion: nil)
+        alert.addAction(confirmAction) // 확인 액션 추가
+        present(alert, animated: true, completion: nil)
     }
 
     // 새로운 할 일 아이템 추가하는 화면으로 이동

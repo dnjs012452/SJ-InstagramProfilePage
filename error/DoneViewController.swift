@@ -35,7 +35,7 @@ class DoneViewController: UIViewController {
     // MARK: - 레이아웃
 
     private func setUpConstraints() {
-        let safeArea = view.safeAreaLayoutGuide
+        var safeArea = view.safeAreaLayoutGuide
 
         NSLayoutConstraint.activate([
             doneTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

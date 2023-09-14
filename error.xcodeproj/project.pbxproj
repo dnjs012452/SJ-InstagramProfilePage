@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C72CFCF12AB163E500E01338 /* ProfileDesignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CFCF02AB163E500E01338 /* ProfileDesignViewController.swift */; };
 		C72CFCF32AB1E58700E01338 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CFCF22AB1E58700E01338 /* MenuViewController.swift */; };
+		C72FAC6C2AB37674005C41BA /* postAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72FAC6B2AB37674005C41BA /* postAddViewController.swift */; };
 		C7F6502F2AB064FB000BDDAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F6502E2AB064FB000BDDAF /* AppDelegate.swift */; };
 		C7F650312AB064FB000BDDAF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F650302AB064FB000BDDAF /* SceneDelegate.swift */; };
 		C7F650332AB064FB000BDDAF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F650322AB064FB000BDDAF /* MainViewController.swift */; };
@@ -23,6 +24,7 @@
 /* Begin PBXFileReference section */
 		C72CFCF02AB163E500E01338 /* ProfileDesignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDesignViewController.swift; sourceTree = "<group>"; };
 		C72CFCF22AB1E58700E01338 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		C72FAC6B2AB37674005C41BA /* postAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postAddViewController.swift; sourceTree = "<group>"; };
 		C7F6502B2AB064FB000BDDAF /* error.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = error.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7F6502E2AB064FB000BDDAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7F650302AB064FB000BDDAF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				C7F650492AB06833000BDDAF /* DoneViewController.swift */,
 				C72CFCF02AB163E500E01338 /* ProfileDesignViewController.swift */,
 				C72CFCF22AB1E58700E01338 /* MenuViewController.swift */,
+				C72FAC6B2AB37674005C41BA /* postAddViewController.swift */,
 				C7F6503A2AB064FC000BDDAF /* Assets.xcassets */,
 				C7F6503C2AB064FC000BDDAF /* LaunchScreen.storyboard */,
 				C7F6503F2AB064FC000BDDAF /* Info.plist */,
@@ -158,6 +161,7 @@
 				C7F6504A2AB06833000BDDAF /* DoneViewController.swift in Sources */,
 				C7F650392AB064FB000BDDAF /* error.xcdatamodeld in Sources */,
 				C72CFCF12AB163E500E01338 /* ProfileDesignViewController.swift in Sources */,
+				C72FAC6C2AB37674005C41BA /* postAddViewController.swift in Sources */,
 				C7F650332AB064FB000BDDAF /* MainViewController.swift in Sources */,
 				C7F650482AB06824000BDDAF /* AddViewController.swift in Sources */,
 				C7F650462AB06816000BDDAF /* TodoViewController.swift in Sources */,

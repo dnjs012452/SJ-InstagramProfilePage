@@ -486,9 +486,27 @@ class ProfileDesignViewController: UIViewController {
         titleLabel.sizeToFit()
         navigationItem.titleView = titleLabel
 
-        // 메뉴
+        // 게시글 추가 버튼
+        if let plusPostImage = UIImage(named: "pluspost") {
+            let pluspostButtonSize = CGSize(width: 22, height: 22)
+            UIGraphicsBeginImageContextWithOptions(pluspostButtonSize, false, UIScreen.main.scale)
+            plusPostImage.draw(in: CGRect(origin: .zero, size: pluspostButtonSize))
+
+            if let resizedPlusImage = UIGraphicsGetImageFromCurrentImageContext() {
+                UIGraphicsEndImageContext()
+
+                let addPostButton = UIBarButtonItem(image: resizedPlusImage.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(addPostButtonTapped))
+                addPostButton.imageInsets = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)
+
+                navigationItem.rightBarButtonItem = addPostButton
+            }
+
+            UIGraphicsEndImageContext()
+        }
+
+        // 메뉴 버튼
         if let menuImage = UIImage(named: "menuImage") {
-            let menuImageSize = CGSize(width: 30, height: 30)
+            let menuImageSize = CGSize(width: 37, height: 37)
             UIGraphicsBeginImageContextWithOptions(menuImageSize, false, UIScreen.main.scale)
             menuImage.draw(in: CGRect(origin: .zero, size: menuImageSize))
 
@@ -496,6 +514,7 @@ class ProfileDesignViewController: UIViewController {
                 UIGraphicsEndImageContext()
 
                 let selectSectionButton = UIBarButtonItem(image: resizedMenuImage.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(menuButtonTapped))
+                selectSectionButton.imageInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 navigationItem.rightBarButtonItems = [selectSectionButton, navigationItem.rightBarButtonItem].compactMap { $0 }
             }
 
@@ -588,7 +607,15 @@ class ProfileDesignViewController: UIViewController {
 
     // MARK: - 기능, 액션
 
-    // 메뉴 버튼 눌렀을때
+    // 상단바 게시글 추가 버튼
+    @objc func addPostButtonTapped() {
+        let vc = postAddViewController()
+
+        let navController = UINavigationController(rootViewController: vc)
+        present(navController, animated: true)
+    }
+
+    // 상단바 메뉴 버튼 눌렀을때
     @objc func menuButtonTapped() {
         let vc = MenuViewController()
 

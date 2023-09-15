@@ -450,7 +450,7 @@ class ProfileDesignViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
 
-        setupNavigationBar()
+        profileSetupNavigationBar()
         setupViews()
         setUpConstraints()
 
@@ -476,9 +476,15 @@ class ProfileDesignViewController: UIViewController {
     // MARK: - 상단바 아이템
 
     // 상단 바
-    private func setupNavigationBar() {
+    private func profileSetupNavigationBar() {
         navigationController?.navigationBar.tintColor = UIColor.black
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithOpaqueBackground()
 
+        navBarAppearance.backgroundColor = .white // #F8F0E5
+        navBarAppearance.shadowColor = .clear
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
         // 타이틀
         let titleLabel = UILabel()
         titleLabel.text = "s_____j05"
@@ -609,7 +615,7 @@ class ProfileDesignViewController: UIViewController {
 
     // 상단바 게시글 추가 버튼
     @objc func addPostButtonTapped() {
-        let vc = postAddViewController()
+        let vc = PostAddViewController()
 
         let navController = UINavigationController(rootViewController: vc)
         present(navController, animated: true)

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DoneViewController: UIViewController {
+class TodoDoneViewController: UIViewController {
     private lazy var doneTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -19,6 +19,7 @@ class DoneViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+//        UIColor(red: 248/255, green: 240/255, blue: 229/255, alpha: 1) // #F8F0E5
 
         setupNavigationBar()
         setupViews()

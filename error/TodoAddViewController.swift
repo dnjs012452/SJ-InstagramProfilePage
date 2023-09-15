@@ -2,7 +2,7 @@
 
 import UIKit
 
-class AddViewController: UIViewController {
+class TodoAddViewController: UIViewController {
     private var loadingView: UIView?
 
     // 제목 라벨
@@ -112,6 +112,7 @@ class AddViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+//        UIColor(red: 248/255, green: 240/255, blue: 229/255, alpha: 1) // #F8F0E5
 
         setUpViews()
         setupNavigationBar()
@@ -223,7 +224,7 @@ class AddViewController: UIViewController {
 
 // MARK: - Delegate
 
-extension AddViewController: UITextFieldDelegate {
+extension TodoAddViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == titleTextField && textField.text == "제목을 입력해주세요." {
             textField.text = nil
@@ -239,7 +240,7 @@ extension AddViewController: UITextFieldDelegate {
     }
 }
 
-extension AddViewController: UITextViewDelegate {
+extension TodoAddViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         guard contentTextView.textColor == .placeholderText else { return }
         contentTextView.textColor = .label

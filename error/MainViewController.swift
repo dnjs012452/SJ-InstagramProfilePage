@@ -104,12 +104,9 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         title = "Todo"
         view.backgroundColor = .systemBackground
+//        UIColor(red: 248/255, green: 240/255, blue: 229/255, alpha: 1) // #F8F0E5
         
-        let navBarAppearance = UINavigationBarAppearance()
-        navBarAppearance.configureWithOpaqueBackground()
-        navBarAppearance.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 30)]
-        navigationController?.navigationBar.standardAppearance = navBarAppearance
-        
+        mainSetupNavigationBar()
         setUpViews()
         fetchCatImage()
         setUpConstraints()
@@ -124,6 +121,26 @@ class MainViewController: UIViewController {
         view.addSubview(buttonStackView)
     }
     
+    // 상단 바
+    private func mainSetupNavigationBar() {
+        navigationController?.navigationBar.tintColor = UIColor.black
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithOpaqueBackground()
+        
+        navBarAppearance.backgroundColor = .systemBackground
+//        UIColor(red: 248/255, green: 240/255, blue: 229/255, alpha: 1) // #F8F0E5
+        navBarAppearance.shadowColor = .clear
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        // 타이틀
+        let titleLabel = UILabel()
+        titleLabel.text = "Todo"
+        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        titleLabel.sizeToFit()
+        titleLabel.textAlignment = .center
+        navigationItem.titleView = titleLabel
+    }
+
     // MARK: - 레이아웃
     
     private func setUpConstraints() {
@@ -182,7 +199,7 @@ class MainViewController: UIViewController {
     }
     
     @objc private func doneGoButtonTapped() {
-        let doneViewController = DoneViewController()
+        let doneViewController = TodoDoneViewController()
         navigationController?.pushViewController(doneViewController, animated: true)
     }
    

@@ -4,13 +4,14 @@ import UIKit
 
 class TodoViewController: UIViewController {
     // 섹션 이름
-    var sections = ["월요일", "화요일"]
+    var sections = [String]()
 
     // 테이블 뷰
     private lazy var addTodoTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = .systemBackground
+//        UIColor(red: 248/255, green: 240/255, blue: 229/255, alpha: 1) // #F8F0E5
         return tableView
     }()
 
@@ -40,6 +41,7 @@ class TodoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+//        UIColor(red: 248/255, green: 240/255, blue: 229/255, alpha: 1) // #F8F0E5
 
         addTodoTableView.register(TodoTableViewCell.self, forCellReuseIdentifier: "TodoCell")
         addTodoTableView.dataSource = self
@@ -54,11 +56,6 @@ class TodoViewController: UIViewController {
            let savedSections = try? JSONDecoder().decode([String].self, from: data)
         {
             sections = savedSections
-        } else {
-            sections = ["월요일", "화요일"]
-            if let data = try? JSONEncoder().encode(sections) {
-                UserDefaults.standard.set(data, forKey: "sections")
-            }
         }
     }
 
@@ -75,6 +72,16 @@ class TodoViewController: UIViewController {
         // edit 버튼
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonTapped))
         navigationController?.navigationBar.tintColor = UIColor.black
+
+        // 상단바 배경색 설정
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.configureWithOpaqueBackground()
+
+        navBarAppearance.backgroundColor = .systemBackground
+//        UIColor(red: 248/255, green: 240/255, blue: 229/255, alpha: 1) // #F8F0E5
+        navBarAppearance.shadowColor = .clear
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
 
         if let menuImage = UIImage(named: "menuImage") {
             let menuImageSize = CGSize(width: 30, height: 30)
@@ -273,7 +280,7 @@ class TodoViewController: UIViewController {
 
     // 새로운 할 일 아이템 추가하는 화면으로 이동
     @objc func addButtonTapped() {
-        let vc = AddViewController()
+        let vc = TodoAddViewController()
 
         let navController = UINavigationController(rootViewController: vc)
         present(navController, animated: true)

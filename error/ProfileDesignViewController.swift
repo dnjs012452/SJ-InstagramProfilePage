@@ -423,7 +423,7 @@ class ProfileDesignViewController: UIViewController {
         return collectionView
     }()
 
-    // 태그된 게시글
+    // 태그된 게시글 컬렉션뷰
     private lazy var taggedPostsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 1

@@ -20,9 +20,16 @@ class TodoViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
 
         button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.tintColor = .white
-        button.backgroundColor = UIColor.black
+        button.tintColor = .black
+        button.backgroundColor = UIColor.white
         button.layer.cornerRadius = 25
+        button.clipsToBounds = false
+
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOffset = CGSize(width: 0, height: 1)
+        button.layer.shadowOpacity = 0.5
+        button.layer.shadowRadius = 4.0
+
         button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
 
         return button
@@ -101,7 +108,7 @@ class TodoViewController: UIViewController {
             // add 버튼
             addbutton.widthAnchor.constraint(equalToConstant: 50),
             addbutton.heightAnchor.constraint(equalToConstant: 50),
-            addbutton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -45),
+            addbutton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -35),
             addbutton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -30),
         ])
     }
@@ -190,7 +197,8 @@ class TodoViewController: UIViewController {
 
             DispatchQueue.main.async {
                 self?.addTodoTableView.reloadData()
-                self?.presentSectionSelectionAlert()
+
+                self?.showToast(message: "섹션이 추가되었습니다.")
             }
         }
 
@@ -219,6 +227,8 @@ class TodoViewController: UIViewController {
 
                 DispatchQueue.main.async {
                     self.addTodoTableView.reloadData()
+
+                    self.showToast(message: "섹션이 삭제되었습니다.")
                 }
             })
         }
@@ -237,6 +247,28 @@ class TodoViewController: UIViewController {
 
         // alert.addAction(confirmAction) // 확인 액션 추가
         present(alert, animated: true, completion: nil)
+    }
+
+    // 불투명 알럿
+    func showToast(message: String) {
+        let toastLabel = UILabel(frame: CGRect(x: view.frame.size.width / 2 - 120, y: 110, width: 240, height: 30))
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        toastLabel.textColor = UIColor.white
+        toastLabel.textAlignment = .center
+        toastLabel.font = UIFont(name: "Montserrat-Light", size: 12.0)
+        toastLabel.text = message
+        toastLabel.alpha = 0.5
+        toastLabel.layer.cornerRadius = 10
+        toastLabel.clipsToBounds = true
+        view.addSubview(toastLabel)
+
+        UIView.animate(withDuration: 2.0, delay: 0.5, options: .curveEaseOut, animations: {
+            toastLabel.alpha = 0.0
+        }, completion: { isCompleted in
+            if isCompleted {
+                toastLabel.removeFromSuperview()
+            }
+        })
     }
 
     // 새로운 할 일 아이템 추가하는 화면으로 이동

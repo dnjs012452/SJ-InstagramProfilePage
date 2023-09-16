@@ -185,14 +185,14 @@ class PostAddViewController: UIViewController {
 
     @objc func postDoneButtonTap() {
         loadingScreenView()
+        if let selectedImage = postProfileImageView.image {
+            self.selectedImage = selectedImage
+            delegate?.didCompletePost(with: selectedImage)
+        }
         // 로딩 화면 보여주기
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { // 0.8초 후 실행되는 클로저 추가
             self.dismissLoadingScreen()
             self.dismiss(animated: true) // 현재 ViewController 닫기
-        }
-        if let selectedImage = postProfileImageView.image {
-            self.selectedImage = selectedImage
-            delegate?.didCompletePost(with: selectedImage)
         }
     }
 
@@ -208,6 +208,7 @@ class PostAddViewController: UIViewController {
         activityIndicator.center = loadingView.center
         activityIndicator.startAnimating()
         loadingView.addSubview(activityIndicator)
+
         view.addSubview(loadingView)
 
         self.loadingView = loadingView
@@ -237,13 +238,11 @@ class PostAddViewController: UIViewController {
 
     // 로딩화면 사라짐
     private func dismissLoadingScreen() {
-        guard let loadingView = loadingView else {
-            return
+        guard let loadingView = loadingView else { return }
+        DispatchQueue.main.async {
+            loadingView.removeFromSuperview()
+            self.loadingView = nil
         }
-
-        loadingView.removeFromSuperview()
-
-        self.loadingView = nil
     }
 
     // 빈화면 터치시 키보드 내려감

@@ -727,20 +727,25 @@ extension ProfileDesignViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == taggedPostsCollectionView {
+            return 0 // taggedPostsCollectionView에는 아이템이 없습니다.
+        }
         return images.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath)
 
-        if let imageView = cell.contentView.subviews.first as? UIImageView {
-            imageView.image = images[indexPath.item]
-        } else {
-            let imageView = UIImageView(frame: cell.bounds)
-            imageView.contentMode = .scaleAspectFill
-            imageView.clipsToBounds = true
-            imageView.image = images[indexPath.item]
-            cell.contentView.addSubview(imageView)
+        if collectionView == postsCollectionView { // postsCollectionView인 경우만 이미지를 설정합니다.
+            if let imageView = cell.contentView.subviews.first as? UIImageView {
+                imageView.image = images[indexPath.item]
+            } else {
+                let imageView = UIImageView(frame: cell.bounds)
+                imageView.contentMode = .scaleAspectFill
+                imageView.clipsToBounds = true
+                imageView.image = images[indexPath.item]
+                cell.contentView.addSubview(imageView)
+            }
         }
 
         return cell
@@ -759,8 +764,8 @@ extension ProfileDesignViewController: UICollectionViewDelegateFlowLayout {
 
 extension ProfileDesignViewController: PostAddDelegate {
     func didCompletePost(with image: UIImage) {
-        images.append(image)
-
+        images.insert(image, at: 0) // 이미지를 배열의 맨 앞에 추가합니다.
+        saveImagesToUserDefaults()
         DispatchQueue.main.async { [weak self] in
             self?.postsCollectionView.reloadData()
         }

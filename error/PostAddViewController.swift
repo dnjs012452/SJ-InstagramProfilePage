@@ -83,22 +83,22 @@ class PostAddViewController: UIViewController {
     }()
 
     // 로딩화면
-    private lazy var loadingScreenView: UIView = {
-        // 로딩 화면 뷰 생성
-        let loadingView = UIView(frame: view.bounds)
-        loadingView.backgroundColor = .white
-        loadingView.alpha = 0.5
-        loadingView.isHidden = true // 초기 상태는 숨김으로 설정
-
-        let activityIndicator = UIActivityIndicatorView(style: .medium)
-
-        activityIndicator.center = loadingView.center
-        activityIndicator.startAnimating()
-        loadingView.addSubview(activityIndicator)
-        view.addSubview(loadingView)
-
-        return loadingView
-    }()
+//    private lazy var loadingScreenView: UIView = {
+//        // 로딩 화면 뷰 생성
+//        let loadingView = UIView(frame: view.bounds)
+//        loadingView.backgroundColor = .white
+//        loadingView.alpha = 0.5
+//        loadingView.isHidden = true // 초기 상태는 숨김으로 설정
+//
+//        let activityIndicator = UIActivityIndicatorView(style: .medium)
+//
+//        activityIndicator.center = loadingView.center
+//        activityIndicator.startAnimating()
+//        loadingView.addSubview(activityIndicator)
+//        view.addSubview(loadingView)
+//
+//        return loadingView
+//    }()
 
     // MARK: - 스택뷰
 
@@ -184,17 +184,33 @@ class PostAddViewController: UIViewController {
     }
 
     @objc func postDoneButtonTap() {
-        loadingScreenView.isHidden = false // 로딩 화면 보여주기
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { // 0.5초 후 실행되는 클로저 추가
-            self.loadingScreenView.isHidden = true // 로딩 화면 숨기기
-            self.dismiss(animated: true, completion: nil) // 현재 ViewController 닫기
+        loadingScreenView()
+        // 로딩 화면 보여주기
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { // 0.8초 후 실행되는 클로저 추가
+            self.dismissLoadingScreen()
+            self.dismiss(animated: true) // 현재 ViewController 닫기
         }
-
         if let selectedImage = postProfileImageView.image {
             self.selectedImage = selectedImage
             delegate?.didCompletePost(with: selectedImage)
         }
+    }
+
+    // 로딩화면
+    private func loadingScreenView() {
+        // 로딩 화면 뷰 생성
+        let loadingView = UIView(frame: view.bounds)
+        loadingView.backgroundColor = .white
+        loadingView.alpha = 0.5
+
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+
+        activityIndicator.center = loadingView.center
+        activityIndicator.startAnimating()
+        loadingView.addSubview(activityIndicator)
+        view.addSubview(loadingView)
+
+        self.loadingView = loadingView
     }
 
     // 프로필 이미지 눌렀을때

@@ -3,6 +3,8 @@
 import UIKit
 
 class ProfileDesignViewController: UIViewController {
+    let userDefaultsKey = "profileImages"
+
     var images: [UIImage] = []
 
     // MARK: - 프로필 이미지 뷰, 그림자 뷰
@@ -451,6 +453,12 @@ class ProfileDesignViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        // 이전에 저장된 이미지를 불러옴
+        if let savedImagesData = UserDefaults.standard.data(forKey: userDefaultsKey),
+           let savedImages = NSKeyedUnarchiver.unarchiveObject(with: savedImagesData) as? [UIImage]
+        {
+            images = savedImages
+        }
 
         profileSetupNavigationBar()
         setupViews()
@@ -459,6 +467,19 @@ class ProfileDesignViewController: UIViewController {
         postsCollectionView.isHidden = false
         taggedPostsCollectionView.isHidden = true
         postsCollectionView.dataSource = self
+    }
+
+    // 이미지를 UserDefaults에 저장하는 함수
+    func saveImagesToUserDefaults() {
+        let imagesData = NSKeyedArchiver.archivedData(withRootObject: images)
+        UserDefaults.standard.set(imagesData, forKey: userDefaultsKey)
+    }
+
+    // 이미지가 추가되거나 삭제될 때 호출되는 함수
+    func updateImages() {
+        postsCollectionView.reloadData()
+        // 이미지가 업데이트 될 때마다 UserDefaults에 저장
+        saveImagesToUserDefaults()
     }
 
     // MARK: - 화면 보여지게 하는 곳
@@ -693,6 +714,10 @@ extension ProfileDesignViewController: UIImagePickerControllerDelegate {
 }
 
 extension ProfileDesignViewController: UINavigationControllerDelegate {
+    //
+}
+
+extension ProfileDesignViewController: UICollectionViewDelegate {
     //
 }
 

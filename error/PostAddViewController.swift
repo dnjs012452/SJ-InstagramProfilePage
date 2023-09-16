@@ -2,7 +2,14 @@
 
 import UIKit
 
+protocol PostAddDelegate: AnyObject {
+    func didCompletePost(with image: UIImage)
+}
+
 class PostAddViewController: UIViewController {
+    weak var delegate: PostAddDelegate?
+    var selectedImage: UIImage?
+
     private var loadingView: UIView?
 
     // 프로필 이미지뷰
@@ -182,6 +189,11 @@ class PostAddViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { // 0.5초 후 실행되는 클로저 추가
             self.loadingScreenView.isHidden = true // 로딩 화면 숨기기
             self.dismiss(animated: true, completion: nil) // 현재 ViewController 닫기
+        }
+
+        if let selectedImage = postProfileImageView.image {
+            self.selectedImage = selectedImage
+            delegate?.didCompletePost(with: selectedImage)
         }
     }
 

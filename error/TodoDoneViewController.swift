@@ -1,9 +1,4 @@
-//
-//  DoneViewController.swift
-//  error
-//
-//  Created by t2023-m0068 on 2023/09/12.
-//
+// 할일완료 페이지
 
 import UIKit
 

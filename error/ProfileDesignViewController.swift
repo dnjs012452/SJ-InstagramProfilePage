@@ -3,6 +3,8 @@
 import UIKit
 
 class ProfileDesignViewController: UIViewController {
+    var images: [UIImage] = []
+
     // MARK: - 프로필 이미지 뷰, 그림자 뷰
 
     // 프로필 이미지뷰
@@ -456,6 +458,7 @@ class ProfileDesignViewController: UIViewController {
 
         postsCollectionView.isHidden = false
         taggedPostsCollectionView.isHidden = true
+        postsCollectionView.dataSource = self
     }
 
     // MARK: - 화면 보여지게 하는 곳
@@ -616,6 +619,7 @@ class ProfileDesignViewController: UIViewController {
     // 상단바 게시글 추가 버튼
     @objc func addPostButtonTapped() {
         let vc = PostAddViewController()
+        vc.delegate = self // delegate 설정
 
         let navController = UINavigationController(rootViewController: vc)
         present(navController, animated: true)
@@ -698,13 +702,21 @@ extension ProfileDesignViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        18 // 게시글 갯수
+        return images.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath)
 
-        cell.backgroundColor = UIColor.lightGray
+        if let imageView = cell.contentView.subviews.first as? UIImageView {
+            imageView.image = images[indexPath.item]
+        } else {
+            let imageView = UIImageView(frame: cell.bounds)
+            imageView.contentMode = .scaleAspectFill
+            imageView.clipsToBounds = true
+            imageView.image = images[indexPath.item]
+            cell.contentView.addSubview(imageView)
+        }
 
         return cell
     }
@@ -717,6 +729,18 @@ extension ProfileDesignViewController: UICollectionViewDelegateFlowLayout {
         } else if collectionView == taggedPostsCollectionView {
             cell.backgroundColor = .systemGray3
         }
+    }
+}
+
+extension ProfileDesignViewController: PostAddDelegate {
+    func didCompletePost(with image: UIImage) {
+        images.append(image)
+
+        DispatchQueue.main.async { [weak self] in
+            self?.postsCollectionView.reloadData()
+        }
+
+        dismiss(animated: true, completion: nil) // 모달 창 닫기 (선택 사항)
     }
 }
 

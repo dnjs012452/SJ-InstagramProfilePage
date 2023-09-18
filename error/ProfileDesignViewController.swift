@@ -705,6 +705,39 @@ class ProfileDesignViewController: UIViewController {
             self.highlightView.center.x = self.taggedPostsButton.center.x
         }
     }
+
+    // 게시글 갯수에 따른 게시글 숫자 업데이트
+    private var postCount: Int = 0 {
+        didSet {
+            postNumberLabel.text = "\(postCount)"
+        }
+    }
+
+    // 이미지 삭제 함수
+    func deleteImage(at index: Int) {
+        guard index >= 0 && index < images.count else {
+            return
+        }
+        // 이미지 배열에서 선택한 이미지를 제거
+        images.remove(at: index)
+        saveImagesToUserDefaults()
+        // 게시글 컬렉션뷰를 리로드하여 변경 사항을 반영
+        postsCollectionView.reloadData()
+    }
+
+    // 이미지 삭제 확인 알럿창
+    func showDeleteImageAlert(at indexPath: IndexPath) {
+        let alert = UIAlertController(title: "삭제 확인", message: "해당 셀을 삭제하시겠습니까?", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+
+        alert.addAction(UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            // 확인 버튼을 누를 경우 이미지를 삭제
+            self?.deleteImage(at: indexPath.item)
+        })
+
+        present(alert, animated: true, completion: nil)
+    }
 }
 
 // MARK: -
@@ -718,7 +751,15 @@ extension ProfileDesignViewController: UINavigationControllerDelegate {
 }
 
 extension ProfileDesignViewController: UICollectionViewDelegate {
-    //
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == postsCollectionView {
+            // 게시글 컬렉션뷰에서 셀을 터치한 경우
+            showDeleteImageAlert(at: indexPath)
+        } else if collectionView == taggedPostsCollectionView {
+            // taggedPostsCollectionView에서 셀을 터치한 경우
+            // 처리할 내용 추가
+        }
+    }
 }
 
 extension ProfileDesignViewController: UICollectionViewDataSource {
@@ -730,7 +771,8 @@ extension ProfileDesignViewController: UICollectionViewDataSource {
         if collectionView == taggedPostsCollectionView {
             return 0 // taggedPostsCollectionView에는 아이템이 없습니다.
         }
-        return images.count
+        postCount = images.count
+        return postCount
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

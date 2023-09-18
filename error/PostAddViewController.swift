@@ -106,7 +106,6 @@ class PostAddViewController: UIViewController {
     private lazy var imageAddStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [postProfileImageView, postshadowView, imageAddButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
-
         stackView.axis = .vertical
         stackView.spacing = 15
 

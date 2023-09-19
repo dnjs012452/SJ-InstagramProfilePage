@@ -10,6 +10,7 @@
 		C72CFCF12AB163E500E01338 /* ProfileDesignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CFCF02AB163E500E01338 /* ProfileDesignViewController.swift */; };
 		C72CFCF32AB1E58700E01338 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CFCF22AB1E58700E01338 /* MenuViewController.swift */; };
 		C72FAC6C2AB37674005C41BA /* PostAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72FAC6B2AB37674005C41BA /* PostAddViewController.swift */; };
+		C7E2FA682AB98BC600EEA17A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E2FA672AB98BC600EEA17A /* ProfileViewController.swift */; };
 		C7F6502F2AB064FB000BDDAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F6502E2AB064FB000BDDAF /* AppDelegate.swift */; };
 		C7F650312AB064FB000BDDAF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F650302AB064FB000BDDAF /* SceneDelegate.swift */; };
 		C7F650332AB064FB000BDDAF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F650322AB064FB000BDDAF /* MainViewController.swift */; };
@@ -25,6 +26,7 @@
 		C72CFCF02AB163E500E01338 /* ProfileDesignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDesignViewController.swift; sourceTree = "<group>"; };
 		C72CFCF22AB1E58700E01338 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		C72FAC6B2AB37674005C41BA /* PostAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddViewController.swift; sourceTree = "<group>"; };
+		C7E2FA672AB98BC600EEA17A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		C7F6502B2AB064FB000BDDAF /* error.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = error.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7F6502E2AB064FB000BDDAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C7F650302AB064FB000BDDAF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +51,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C7E2FA692AB9CBED00EEA17A /* Todo */ = {
+			isa = PBXGroup;
+			children = (
+				C7F650322AB064FB000BDDAF /* MainViewController.swift */,
+				C7F650452AB06816000BDDAF /* TodoViewController.swift */,
+				C7F650472AB06824000BDDAF /* TodoAddViewController.swift */,
+				C7F650492AB06833000BDDAF /* TodoDoneViewController.swift */,
+			);
+			path = Todo;
+			sourceTree = "<group>";
+		};
+		C7E2FA6A2AB9CBF500EEA17A /* Insta */ = {
+			isa = PBXGroup;
+			children = (
+				C72CFCF02AB163E500E01338 /* ProfileDesignViewController.swift */,
+				C72FAC6B2AB37674005C41BA /* PostAddViewController.swift */,
+				C72CFCF22AB1E58700E01338 /* MenuViewController.swift */,
+				C7E2FA672AB98BC600EEA17A /* ProfileViewController.swift */,
+			);
+			path = Insta;
+			sourceTree = "<group>";
+		};
+		C7E2FA6B2AB9CC2C00EEA17A /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				C7F6502E2AB064FB000BDDAF /* AppDelegate.swift */,
+				C7F650302AB064FB000BDDAF /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		C7E2FA6C2AB9CC4600EEA17A /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				C7F6503C2AB064FC000BDDAF /* LaunchScreen.storyboard */,
+				C7F6503A2AB064FC000BDDAF /* Assets.xcassets */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
 		C7F650222AB064FB000BDDAF = {
 			isa = PBXGroup;
 			children = (
@@ -68,17 +110,10 @@
 		C7F6502D2AB064FB000BDDAF /* error */ = {
 			isa = PBXGroup;
 			children = (
-				C7F6502E2AB064FB000BDDAF /* AppDelegate.swift */,
-				C7F650302AB064FB000BDDAF /* SceneDelegate.swift */,
-				C7F650322AB064FB000BDDAF /* MainViewController.swift */,
-				C7F650452AB06816000BDDAF /* TodoViewController.swift */,
-				C7F650472AB06824000BDDAF /* TodoAddViewController.swift */,
-				C7F650492AB06833000BDDAF /* TodoDoneViewController.swift */,
-				C72CFCF02AB163E500E01338 /* ProfileDesignViewController.swift */,
-				C72FAC6B2AB37674005C41BA /* PostAddViewController.swift */,
-				C72CFCF22AB1E58700E01338 /* MenuViewController.swift */,
-				C7F6503A2AB064FC000BDDAF /* Assets.xcassets */,
-				C7F6503C2AB064FC000BDDAF /* LaunchScreen.storyboard */,
+				C7E2FA6B2AB9CC2C00EEA17A /* Application */,
+				C7E2FA692AB9CBED00EEA17A /* Todo */,
+				C7E2FA6A2AB9CBF500EEA17A /* Insta */,
+				C7E2FA6C2AB9CC4600EEA17A /* Resource */,
 				C7F6503F2AB064FC000BDDAF /* Info.plist */,
 				C7F650372AB064FB000BDDAF /* error.xcdatamodeld */,
 			);
@@ -163,6 +198,7 @@
 				C72CFCF12AB163E500E01338 /* ProfileDesignViewController.swift in Sources */,
 				C72FAC6C2AB37674005C41BA /* PostAddViewController.swift in Sources */,
 				C7F650332AB064FB000BDDAF /* MainViewController.swift in Sources */,
+				C7E2FA682AB98BC600EEA17A /* ProfileViewController.swift in Sources */,
 				C7F650482AB06824000BDDAF /* TodoAddViewController.swift in Sources */,
 				C7F650462AB06816000BDDAF /* TodoViewController.swift in Sources */,
 				C7F6502F2AB064FB000BDDAF /* AppDelegate.swift in Sources */,

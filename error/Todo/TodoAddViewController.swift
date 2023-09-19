@@ -1,28 +1,37 @@
-// 할일 작성 페이지
 
 import UIKit
 
-class TodoAddViewController: UIViewController {
+final class TodoAddViewController: UIViewController {
+    private var initialHeightConstraint: NSLayoutConstraint?
     private var loadingView: UIView?
+    private let existingText: String?
+    var selectedSectionIndex: Int?
+    var initialText: String?
+    var delegate: AddTodoDelegate?
 
-    // 제목 라벨
-    let titleLabel: UILabel = {
+    init(existingText: String? = nil) {
+        self.existingText = existingText
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-
         titleLabel.text = "제 목"
         titleLabel.font = UIFont.boldSystemFont(ofSize: 16)
         titleLabel.textColor = .label
-        // titleLabel.textAlignment = .center
 
         return titleLabel
     }()
 
-    // 제목 텍스트필드
-    let titleTextField: UITextField = {
+    private lazy var titleTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-
         textField.placeholder = "제목을 입력해주세요."
         textField.font = UIFont.systemFont(ofSize: 16)
         textField.layer.borderColor = UIColor.lightGray.cgColor
@@ -34,24 +43,19 @@ class TodoAddViewController: UIViewController {
         return textField
     }()
 
-    // 내용 라벨
-    let contentLabel: UILabel = {
+    private lazy var contentLabel: UILabel = {
         let contentLabel = UILabel()
         contentLabel.translatesAutoresizingMaskIntoConstraints = false
-
         contentLabel.text = "내 용"
         contentLabel.font = UIFont.boldSystemFont(ofSize: 16)
         contentLabel.textColor = .label
-        // contentLabel.textAlignment = .center
 
         return contentLabel
     }()
 
-    // 내용 텍스트뷰
-    lazy var contentTextView: UITextView = {
+    private lazy var contentTextView: UITextView = {
         let contentTextView = UITextView()
         contentTextView.translatesAutoresizingMaskIntoConstraints = false
-
         contentTextView.text = "내용을 입력해주세요."
         contentTextView.font = UIFont.systemFont(ofSize: 17)
         contentTextView.layer.borderColor = UIColor.lightGray.cgColor
@@ -64,26 +68,6 @@ class TodoAddViewController: UIViewController {
 
         return contentTextView
     }()
-
-    // 로딩화면
-    private lazy var loadingScreenView: UIView = {
-        // 로딩 화면 뷰 생성
-        let loadingView = UIView(frame: view.bounds)
-        loadingView.backgroundColor = .white
-        loadingView.alpha = 0.5
-        loadingView.isHidden = true // 초기 상태는 숨김으로 설정
-
-        let activityIndicator = UIActivityIndicatorView(style: .medium)
-
-        activityIndicator.center = loadingView.center
-        activityIndicator.startAnimating()
-        loadingView.addSubview(activityIndicator)
-        view.addSubview(loadingView)
-
-        return loadingView
-    }()
-
-    // MARK: - 스택뷰
 
     // 제목 스택뷰
     private lazy var titleStackView: UIStackView = {
@@ -107,30 +91,45 @@ class TodoAddViewController: UIViewController {
         return stackView
     }()
 
-    // MARK: - viewDidLoad
+    // 상단바
+    private func setupAddNavigationBar() {
+        let rightButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(doneButtonTap))
+        rightButton.tintColor = UIColor.label
+        navigationItem.rightBarButtonItem = rightButton
 
+        let titleTextAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.boldSystemFont(ofSize: 21),
+            .foregroundColor: UIColor.label,
+        ]
+        navigationController?.navigationBar.titleTextAttributes = titleTextAttributes
+        navigationItem.title = "할일 추가하기"
+    }
+
+    // viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-//        UIColor(red: 248/255, green: 240/255, blue: 229/255, alpha: 1) // #F8F0E5
-
-        setUpViews()
-        setupNavigationBar()
-        setUpConstraints()
-
         titleTextField.delegate = self
         contentTextView.delegate = self
+
+        if let existingText = existingText {
+            titleTextField.text = existingText
+        }
+
+        getSavedData()
+        setUpViews()
+        setupAddNavigationBar()
+        sepupInitialHeightConstraint()
+        setUpConstraints()
     }
 
     // 화면에 보여지는 곳
     private func setUpViews() {
         view.addSubview(titleStackView)
         view.addSubview(contentStackView)
-        view.addSubview(loadingScreenView)
     }
 
-    // MARK: - 레이아웃
-
+    // 레이아웃
     private func setUpConstraints() {
         let safeArea = view.safeAreaLayoutGuide
 
@@ -172,37 +171,50 @@ class TodoAddViewController: UIViewController {
         ])
     }
 
-    // MARK: - 상단바 아이템
+    private func getSavedData() {
+        if let savedTitle = UserDefaults.standard.string(forKey: "title") {
+            titleTextField.text = savedTitle
+        }
 
-    private func setupNavigationBar() {
-        let rightButton = UIButton(type: .system)
-        rightButton.setTitle("완료", for: .normal)
-        rightButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
-        rightButton.tintColor = UIColor.black
-
-        rightButton.addTarget(self, action: #selector(doneButtonTap), for: .touchUpInside)
-
-        let barButtonItem = UIBarButtonItem(customView: rightButton)
-
-        navigationItem.rightBarButtonItem = barButtonItem
-
-        let titleTextAttributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.boldSystemFont(ofSize: 18),
-            .foregroundColor: UIColor.label,
-        ]
-        navigationController?.navigationBar.titleTextAttributes = titleTextAttributes
-        navigationItem.title = "할일 추가하기"
+        if let savedContent = UserDefaults.standard.string(forKey: "content") {
+            contentTextView.text = savedContent
+        }
     }
 
-    // MARK: - 기능, 액션
-
-    @objc func doneButtonTap() {
-        loadingScreenView.isHidden = false // 로딩 화면 보여주기
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { // 0.5초 후 실행되는 클로저 추가
-            self.loadingScreenView.isHidden = true // 로딩 화면 숨기기
-            self.dismiss(animated: true, completion: nil) // 현재 ViewController 닫기
+    // 완료 버튼 눌렀을때
+    @objc func doneButtonTap(_sender: Any) {
+        guard let titleText = titleTextField.text,
+              let contentText = contentTextView.text,
+              let sectionIndex = selectedSectionIndex
+        else { return }
+        if titleText.isEmpty && contentText.isEmpty {
+            return
         }
+        showLoadingScreen()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+            self.delegate?.didSaveNewTodo(todo: titleText + "\n" + contentText, section: sectionIndex)
+
+            self.dismissLoadingScreen()
+            self.dismiss(animated: true)
+        }
+    }
+
+    // 로딩화면
+    private func showLoadingScreen() {
+        // 로딩 화면 뷰 생성
+        let loadingView = UIView(frame: view.bounds)
+        loadingView.backgroundColor = .white
+        loadingView.alpha = 0.5
+
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+
+        activityIndicator.center = loadingView.center
+        activityIndicator.startAnimating()
+        loadingView.addSubview(activityIndicator)
+        view.addSubview(loadingView)
+
+        self.loadingView = loadingView
     }
 
     // 로딩화면 사라짐
@@ -216,43 +228,73 @@ class TodoAddViewController: UIViewController {
         self.loadingView = nil
     }
 
-    // 빈화면 터치시 키보드 내려감
+    private func sepupInitialHeightConstraint() {
+        initialHeightConstraint = contentTextView.heightAnchor.constraint(equalToConstant: 150)
+        initialHeightConstraint?.isActive = true
+    }
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 }
 
-// MARK: - Delegate
-
 extension TodoAddViewController: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField == titleTextField && textField.text == "제목을 입력해주세요." {
-            textField.text = nil
-            textField.textColor = .label
-        }
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField == titleTextField && (textField.text == nil || textField.text!.isEmpty) {
-            textField.text = "제목을 입력해주세요."
-            textField.textColor = .placeholderText
-        }
+    func textFieldReturn(_ textField: UITextField) -> Bool {
+        titleTextField.resignFirstResponder()
+        contentTextView.resignFirstResponder()
+        dismiss(animated: true, completion: nil)
+        return true
     }
 }
 
 extension TodoAddViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        if textView.isScrollEnabled {
+            initialHeightConstraint?.constant = textView.contentSize.height
+        }
+
+        let maxHeight: CGFloat = 100
+
+        if textView.contentSize.height >= maxHeight {
+            textView.isScrollEnabled = true
+            initialHeightConstraint?.constant = maxHeight
+        } else {
+            textView.isScrollEnabled = false
+        }
+    }
+
     func textViewDidBeginEditing(_ textView: UITextView) {
         guard contentTextView.textColor == .placeholderText else { return }
         contentTextView.textColor = .label
         contentTextView.text = nil
-        contentTextView.font = UIFont.systemFont(ofSize: 16)
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
         if contentTextView.text.isEmpty {
             contentTextView.text = "내용을 입력해주세요."
             contentTextView.textColor = .placeholderText
-            contentTextView.font = UIFont.systemFont(ofSize: 16)
         }
+    }
+}
+
+extension TodoAddViewController {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string == "\n" {
+            textField.resignFirstResponder()
+            return false
+        }
+        return true
     }
 }

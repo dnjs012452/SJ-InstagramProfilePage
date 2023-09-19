@@ -263,7 +263,6 @@ class ProfileDesignViewController: UIViewController {
         button.backgroundColor = UIColor.systemBackground
         button.layer.borderColor = UIColor.black.cgColor
         button.layer.borderWidth = 0
-        button.layer.cornerRadius = 5
 
         // 기능 추가
         button.addTarget(self, action: #selector(postsButtonTapped), for: .touchUpInside)
@@ -292,7 +291,6 @@ class ProfileDesignViewController: UIViewController {
         button.backgroundColor = UIColor.systemBackground
         button.layer.borderColor = UIColor.black.cgColor
         button.layer.borderWidth = 0
-        button.layer.cornerRadius = 5
 
         // 기능추가
         button.addTarget(self, action: #selector(taggedPostsButtonTapped), for: .touchUpInside)
@@ -308,6 +306,41 @@ class ProfileDesignViewController: UIViewController {
         view.backgroundColor = .black
 
         return view
+    }()
+
+    private lazy var bottomView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .systemBackground
+
+        return view
+    }()
+
+    private lazy var bottomButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        if let profileImage = UIImage(named: "profileImage") {
+            let profileImageSize = CGSize(width: 30, height: 30)
+            UIGraphicsBeginImageContextWithOptions(profileImageSize, false, UIScreen.main.scale)
+            profileImage.draw(in: CGRect(origin: .zero, size: profileImageSize))
+            if let resizedDownArrowImage = UIGraphicsGetImageFromCurrentImageContext() {
+                UIGraphicsEndImageContext()
+                button.setImage(resizedDownArrowImage.withRenderingMode(.alwaysOriginal), for: .normal)
+            } else {
+                UIGraphicsEndImageContext()
+            }
+        }
+
+        // 버튼 디자인
+        button.backgroundColor = UIColor.systemBackground
+        button.layer.borderColor = UIColor.clear.cgColor
+        button.layer.borderWidth = 0
+        button.layer.cornerRadius = 5
+
+        button.addTarget(self, action: #selector(bottomButtonTapped), for: .touchUpInside)
+
+        return button
     }()
 
     // MARK: - 스택뷰
@@ -404,6 +437,16 @@ class ProfileDesignViewController: UIViewController {
         return stackView
     }()
 
+    // 6. 컬렉션 뷰 스택뷰
+    private lazy var collectionStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [selectionStackView, postsCollectionView, taggedPostsCollectionView])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.backgroundColor = .systemGray5
+
+        return stackView
+    }()
+
     // MARK: - 게시글/태그된 게시글 컬렉션뷰
 
     // 게시글 컬렉션뷰
@@ -487,14 +530,20 @@ class ProfileDesignViewController: UIViewController {
     private func setupViews() {
         shadowView.addSubview(profileImageView)
         view.addSubview(shadowView)
-        view.addSubview(selectionStackView)
+        // view.addSubview(selectionStackView)
         view.addSubview(buttonStackView)
         view.addSubview(introduceStackView)
         view.addSubview(numberStackView)
         view.addSubview(profileStackView)
+        // view.addSubview(postsCollectionView)
+        // view.addSubview(taggedPostsCollectionView)
+        selectionStackView.addSubview(highlightView)
+        view.addSubview(selectionStackView)
         view.addSubview(postsCollectionView)
         view.addSubview(taggedPostsCollectionView)
-        selectionStackView.addSubview(highlightView)
+        view.addSubview(collectionStackView)
+        view.addSubview(bottomView)
+        view.addSubview(bottomButton)
     }
 
     // MARK: - 상단바 아이템
@@ -604,34 +653,52 @@ class ProfileDesignViewController: UIViewController {
             arrowButton.heightAnchor.constraint(equalToConstant: 26),
 
             // 선택버튼 스택뷰
-            selectionStackView.topAnchor.constraint(equalTo: buttonStackView.bottomAnchor, constant: 20),
+            selectionStackView.topAnchor.constraint(equalTo: collectionStackView.topAnchor, constant: 1),
             selectionStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             selectionStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             selectionStackView.heightAnchor.constraint(equalToConstant: 40),
 
             // 게시글 버튼
-            postsButton.widthAnchor.constraint(equalTo: selectionStackView.widthAnchor, multiplier: 0.5, constant: -2.5),
+            postsButton.widthAnchor.constraint(equalTo: selectionStackView.widthAnchor, multiplier: 0.5, constant: 0),
 
             // 태그된 게시글 버튼
-            taggedPostsButton.widthAnchor.constraint(equalTo: selectionStackView.widthAnchor, multiplier: 0.5, constant: -2.5),
+            taggedPostsButton.widthAnchor.constraint(equalTo: selectionStackView.widthAnchor, multiplier: 0.5, constant: 0),
 
             // 게시글 콜렉션 뷰
             postsCollectionView.topAnchor.constraint(equalTo: selectionStackView.bottomAnchor, constant: 10),
             postsCollectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             postsCollectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            postsCollectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            // postsCollectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
 
-            // 태그된 게시글 콜렉션뷰
+            // 태그된 게시글 컬렉션뷰
             taggedPostsCollectionView.topAnchor.constraint(equalTo: selectionStackView.bottomAnchor, constant: 10),
             taggedPostsCollectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             taggedPostsCollectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            taggedPostsCollectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            // taggedPostsCollectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
 
             // 하이라이트뷰 (게시글/태그된 게시글 선택버튼 아래 선)
             highlightView.bottomAnchor.constraint(equalTo: selectionStackView.bottomAnchor),
             highlightView.heightAnchor.constraint(equalToConstant: 1),
             highlightView.widthAnchor.constraint(equalTo: postsButton.widthAnchor),
             highlightView.centerXAnchor.constraint(equalTo: postsButton.centerXAnchor),
+
+            // 컬렉션 스택뷰
+            collectionStackView.topAnchor.constraint(equalTo: buttonStackView.bottomAnchor, constant: 20),
+            collectionStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            collectionStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            collectionStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -50),
+
+            // 하단 뷰
+            bottomView.topAnchor.constraint(equalTo: collectionStackView.bottomAnchor),
+            bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+
+            // 하단 버튼
+//            bottomButton.topAnchor.constraint(equalTo: bottomView.topAnchor, constant: 10),
+            bottomButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -35),
+            bottomButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
         ])
     }
 
@@ -669,7 +736,6 @@ class ProfileDesignViewController: UIViewController {
         }
     }
 
-    // 팔로우 버튼 눌렀을때
     @objc func followButtonTapped() {
         //
     }
@@ -704,6 +770,13 @@ class ProfileDesignViewController: UIViewController {
             guard let self = self else { return }
             self.highlightView.center.x = self.taggedPostsButton.center.x
         }
+    }
+
+    @objc func bottomButtonTapped() {
+        let vc = ProfileViewController()
+
+        let navController = UINavigationController(rootViewController: vc)
+        present(navController, animated: true)
     }
 
     // 게시글 갯수에 따른 게시글 숫자 업데이트

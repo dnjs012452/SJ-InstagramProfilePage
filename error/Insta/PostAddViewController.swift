@@ -176,9 +176,9 @@ class PostAddViewController: UIViewController {
 
             // 글 입력 텍스트뷰
             postTextView.topAnchor.constraint(equalTo: imageAddStackView.bottomAnchor, constant: 60),
-            postTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 30),
-            postTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -30),
-            postTextView.heightAnchor.constraint(equalToConstant: 300),
+            postTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 50),
+            postTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -50),
+            postTextView.heightAnchor.constraint(equalToConstant: 200),
         ])
     }
 

@@ -259,6 +259,7 @@ class ProfileDesignViewController: UIViewController {
                 UIGraphicsEndImageContext()
             }
         }
+        
         // 버튼 디자인
         button.backgroundColor = UIColor.systemBackground
         button.layer.borderColor = UIColor.black.cgColor
@@ -321,7 +322,7 @@ class ProfileDesignViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
 
         if let profileImage = UIImage(named: "profileImage") {
-            let profileImageSize = CGSize(width: 30, height: 30)
+            let profileImageSize = CGSize(width: 25, height: 25)
             UIGraphicsBeginImageContextWithOptions(profileImageSize, false, UIScreen.main.scale)
             profileImage.draw(in: CGRect(origin: .zero, size: profileImageSize))
             if let resizedDownArrowImage = UIGraphicsGetImageFromCurrentImageContext() {
@@ -558,6 +559,7 @@ class ProfileDesignViewController: UIViewController {
         navBarAppearance.shadowColor = .clear
         navigationController?.navigationBar.standardAppearance = navBarAppearance
         navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+
         // 타이틀
         let titleLabel = UILabel()
         titleLabel.text = "s_____j05"
@@ -774,8 +776,8 @@ class ProfileDesignViewController: UIViewController {
 
     @objc func bottomButtonTapped() {
         let vc = ProfileViewController()
-
         let navController = UINavigationController(rootViewController: vc)
+        navController.modalPresentationStyle = .fullScreen
         present(navController, animated: true)
     }
 

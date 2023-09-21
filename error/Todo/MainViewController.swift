@@ -1,5 +1,7 @@
 // 메인페이지
 
+import Alamofire
+import AlamofireImage
 import UIKit
 
 class MainViewController: UIViewController {
@@ -40,11 +42,6 @@ class MainViewController: UIViewController {
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont(name: "Helvetica", size: 17)
         
-//        button.backgroundColor = UIColor.systemGray5
-//        button.layer.borderColor = UIColor.systemBackground.cgColor
-//        button.layer.borderWidth = 1
-//        button.layer.cornerRadius = 5
-        
         button.addTarget(self, action: #selector(todoGoButtonTapped), for: .touchUpInside)
         
         return button
@@ -59,11 +56,6 @@ class MainViewController: UIViewController {
         button.setTitle("완료된일 보기", for: .normal)
         button.titleLabel?.font = UIFont(name: "Helvetica", size: 17)
         
-//        button.backgroundColor = UIColor.systemGray5
-//        button.layer.borderColor = UIColor.systemBackground.cgColor
-//        button.layer.borderWidth = 1
-//        button.layer.cornerRadius = 5
-        
         button.addTarget(self, action: #selector(doneGoButtonTapped), for: .touchUpInside)
         
         return button
@@ -77,19 +69,26 @@ class MainViewController: UIViewController {
         button.setTitle("프로필 페이지", for: .normal)
         button.titleLabel?.font = UIFont(name: "Helvetica", size: 17)
         
-//        button.backgroundColor = UIColor.systemGray5
-//        button.layer.borderColor = UIColor.systemBackground.cgColor
-//        button.layer.borderWidth = 1
-//        button.layer.cornerRadius = 5
-        
         button.addTarget(self, action: #selector(profilePageButtonTapped), for: .touchUpInside)
         
         return button
     }()
     
-    // 버튼 스택뷰
+    private lazy var practicePageButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        button.setTitleColor(.black, for: .normal)
+        button.setTitle("투두 연습 페이지", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Helvetica", size: 17)
+        
+        button.addTarget(self, action: #selector(practicePageButtonTapped), for: .touchUpInside)
+        
+        return button
+    }() // 버튼 스택뷰
+    
     private lazy var buttonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [todoButton, doneButton, profilePageButton])
+        let stackView = UIStackView(arrangedSubviews: [todoButton, doneButton, profilePageButton, practicePageButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         stackView.axis = .vertical
@@ -116,8 +115,6 @@ class MainViewController: UIViewController {
     private func setUpViews() {
         view.addSubview(imagetouchLabel)
         view.addSubview(catImageView)
-        view.addSubview(todoButton)
-        view.addSubview(doneButton)
         view.addSubview(buttonStackView)
     }
     
@@ -168,15 +165,11 @@ class MainViewController: UIViewController {
 
     private func fetchCatImage() {
         let urlAddress = "https://api.thecatapi.com/v1/images/search"
-        guard let url = URL(string: urlAddress) else { return }
-        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
-            if error != nil {
-                print("Failed fetching image:", error!)
-                return
-            }
-            guard let data = data else { return }
-            do {
-                if let jsonArray = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [[String: Any]] {
+
+        AF.request(urlAddress).responseJSON { [weak self] response in
+            switch response.result {
+            case .success(let value):
+                if let jsonArray = value as? [[String: Any]] {
                     if let imgUrlString = jsonArray[0]["url"] as? String,
                        let imgUrl = URL(string: imgUrlString)
                     {
@@ -187,10 +180,10 @@ class MainViewController: UIViewController {
                 } else {
                     print("bad json")
                 }
-            } catch let error as NSError {
-                print(error)
+            case .failure(let error):
+                print("Failed fetching image:", error)
             }
-        }.resume()
+        }
     }
 
     @objc private func todoGoButtonTapped() {
@@ -205,6 +198,11 @@ class MainViewController: UIViewController {
    
     @objc private func profilePageButtonTapped() {
         let doneViewController = ProfileDesignViewController()
+        navigationController?.pushViewController(doneViewController, animated: true)
+    }
+    
+    @objc private func practicePageButtonTapped() {
+        let doneViewController = PracticeViewController()
         navigationController?.pushViewController(doneViewController, animated: true)
     }
 }

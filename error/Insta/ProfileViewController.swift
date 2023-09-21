@@ -1,8 +1,16 @@
 // 프로필 수정페이지
 
+import CoreData
 import UIKit
 
 class ProfileViewController: UIViewController {
+    let appDelegate = UIApplication.shared.delegate as? AppDelegate
+    lazy var context = appDelegate?.persistentContainer.viewContext
+    var container: NSPersistentContainer!
+
+    var dataChangedHandler: ((UserModel) -> Void)?
+    var userModel: UserModel?
+
     // 사용자 이름 라벨
     private lazy var userNameLabel: UILabel = {
         let titleLabel = UILabel()
@@ -161,6 +169,7 @@ class ProfileViewController: UIViewController {
         view.backgroundColor = .systemBackground
 
         profileSetupNavigationBar()
+        setupTextField()
         profileSetupViews()
         setUpConstraints()
     }
@@ -169,6 +178,10 @@ class ProfileViewController: UIViewController {
         view.addSubview(usernameStackView)
         view.addSubview(nameStackView)
         view.addSubview(introduceStackView)
+    }
+
+    deinit {
+        print("Profile EditVC 해제")
     }
 
     // 상단 바
@@ -236,27 +249,88 @@ class ProfileViewController: UIViewController {
         ])
     }
 
+    func setupTextField() {
+        userNameTextField.delegate = self
+        nameTextField.delegate = self
+        introduceTextField.delegate = self
+
+        updateTextFields()
+    }
+
+    func updateTextFields() {
+        if let userModel = userModel {
+            userNameTextField.text = userModel.id ?? ""
+            nameTextField.text = userModel.name ?? ""
+            introduceTextField.text = userModel.introduction ?? ""
+        }
+    }
+
     @objc func closeButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
 
     @objc func editDoneButtonTapped() {
+        guard let contextToUse = context else { return }
+        if let userModel = userModel {
+            userModel.id = userNameTextField.text
+            userModel.name = nameTextField.text
+            userModel.introduction = introduceTextField.text
+        } else {
+            let newUser = UserModel(context: contextToUse)
+            newUser.id = userNameTextField.text
+            newUser.name = nameTextField.text
+            newUser.introduction = introduceTextField.text
+            userModel = newUser
+        }
+
+        do {
+            try contextToUse.save()
+            print("User saved successfully.")
+        } catch {
+            print("Error saving user: \(error)")
+        }
+
+        // notify the handler about the updated user.
+        dataChangedHandler?(userModel!)
         dismiss(animated: true, completion: nil)
     }
 
+    func saveUser() {
+        print(#function)
+        do {
+            try appDelegate?.saveContext()
+            print("Success saving data")
+        } catch {
+            print("Error saving context \(error)")
+        }
+    }
+}
+
+extension ProfileViewController: UITextFieldDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
+//
+//        if userNameTextField.text == "" {
+//            userNameTextField.placeholder = "사용자 이름.."
+//        }
+//
+//        if nameTextField.text == "" {
+//            nameTextField.placeholder = "이름.."
+//        }
+//
+//        if introduceTextField.text == "" {
+//            introduceTextField.placeholder = "소개.."
+//        }
+    }
 
-        if userNameTextField.text == "" {
-            userNameTextField.placeholder = "사용자 이름.."
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == userNameTextField {
+            nameTextField.becomeFirstResponder()
+        } else if textField == nameTextField {
+            introduceTextField.becomeFirstResponder()
+        } else if textField == introduceTextField {
+            editDoneButtonTapped()
         }
-
-        if nameTextField.text == "" {
-            nameTextField.placeholder = "이름.."
-        }
-
-        if introduceTextField.text == "" {
-            introduceTextField.placeholder = "소개.."
-        }
+        return true
     }
 }

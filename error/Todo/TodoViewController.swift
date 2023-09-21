@@ -1,8 +1,9 @@
+import CoreData
 import UIKit
 
 final class TodoViewController: UIViewController, AddTodoDelegate {
     var sections = [String]()
-    var items: [[Task]] = []
+    var items: [[Task]] = [[], []]
     var doneItems: [Task] = []
     var selectedSectionIndex: Int?
 
@@ -185,9 +186,15 @@ final class TodoViewController: UIViewController, AddTodoDelegate {
         pickerView.dataSource = self
         pickerView.delegate = self
         alert.addAction(UIAlertAction(title: "확인", style: .default) { [weak self] _ in
-            let selectedRow = pickerView.selectedRow(inComponent: 0)
+            self?.selectedSectionIndex = pickerView.selectedRow(inComponent: 0)
+            let vc = TodoAddViewController()
+            vc.selectedSectionIndex = self?.selectedSectionIndex
+            vc.delegate = self
+            let navController = UINavigationController(rootViewController: vc)
+            self?.present(navController, animated: true)
             print("선택완료")
         })
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
         present(alert, animated: true, completion: nil)
     }
 
@@ -327,7 +334,7 @@ class TodoTableViewCell: UITableViewCell {
         self.backgroundView = backgroundCellView
 
         layer.borderWidth = 1.0
-        layer.borderColor = UIColor.black.cgColor
+        layer.borderColor = UIColor.systemGray4.cgColor
         layer.cornerRadius = cornerRadius
         self.clipsToBounds = true
     }

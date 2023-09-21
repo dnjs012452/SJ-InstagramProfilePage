@@ -1,13 +1,24 @@
 // 프로필 페이지
 
+import CoreData
 import UIKit
 
 class ProfileDesignViewController: UIViewController {
     let userDefaultsKey = "profileImages"
-
+    var viewModel = ProfileViewModel()
     var images: [UIImage] = []
 
-    // MARK: - 프로필 이미지 뷰, 그림자 뷰
+    // 상단 타이틀
+    private lazy var userId: UILabel = {
+        let label = UILabel()
+        label.text = "s_____j05"
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.sizeToFit()
+        label.textAlignment = .center
+        navigationItem.titleView = label
+
+        return label
+    }()
 
     // 프로필 이미지뷰
     private lazy var profileImageView: UIImageView = {
@@ -116,8 +127,6 @@ class ProfileDesignViewController: UIViewController {
         return label
     }()
 
-    // MARK: - 이름, 소개, 링크
-
     // 이름 라벨
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
@@ -135,7 +144,7 @@ class ProfileDesignViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
 
-        label.text = "코딩으아아아아아 ㅈ빡치네ㄴ 그만 괴롭혀"
+        label.text = "samdae500 드가자~"
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 14)
 
@@ -168,8 +177,6 @@ class ProfileDesignViewController: UIViewController {
             fatalError("URL 없음")
         }
     }()
-
-    // MARK: - 팔로우, 메세지, 아래 화살표 버튼
 
     // 팔로우 버튼
     private lazy var followButton: UIButton = {
@@ -240,8 +247,6 @@ class ProfileDesignViewController: UIViewController {
         return button
     }()
 
-    // MARK: - 게시글/태그된 게시글 선택 버튼
-
     // 게시글 버튼
     private lazy var postsButton: UIButton = {
         let button = UIButton(type: .system)
@@ -259,7 +264,7 @@ class ProfileDesignViewController: UIViewController {
                 UIGraphicsEndImageContext()
             }
         }
-        
+
         // 버튼 디자인
         button.backgroundColor = UIColor.systemBackground
         button.layer.borderColor = UIColor.black.cgColor
@@ -343,8 +348,6 @@ class ProfileDesignViewController: UIViewController {
 
         return button
     }()
-
-    // MARK: - 스택뷰
 
     // 1. 프로필 이미지, 게시글, 팔로워, 팔로잉 스택뷰
     private lazy var profileStackView: UIStackView = {
@@ -448,8 +451,6 @@ class ProfileDesignViewController: UIViewController {
         return stackView
     }()
 
-    // MARK: - 게시글/태그된 게시글 컬렉션뷰
-
     // 게시글 컬렉션뷰
     private lazy var postsCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -503,6 +504,14 @@ class ProfileDesignViewController: UIViewController {
         {
             images = savedImages
         }
+        viewModel.loadUser()
+        viewModel.onCompleted = { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.userId.text = self?.viewModel.userModel?.id
+                self?.nameLabel.text = self?.viewModel.userModel?.name
+                self?.introduceLabel.text = self?.viewModel.userModel?.introduction
+            }
+        }
 
         profileSetupNavigationBar()
         setupViews()
@@ -511,6 +520,8 @@ class ProfileDesignViewController: UIViewController {
         postsCollectionView.isHidden = false
         taggedPostsCollectionView.isHidden = true
         postsCollectionView.dataSource = self
+
+        viewModel.loadUser()
     }
 
     // 이미지를 UserDefaults에 저장하는 함수
@@ -529,6 +540,7 @@ class ProfileDesignViewController: UIViewController {
     // MARK: - 화면 보여지게 하는 곳
 
     private func setupViews() {
+        view.addSubview(userId)
         shadowView.addSubview(profileImageView)
         view.addSubview(shadowView)
         // view.addSubview(selectionStackView)
@@ -637,7 +649,7 @@ class ProfileDesignViewController: UIViewController {
             introduceStackView.heightAnchor.constraint(equalToConstant: 70),
 
             // 버튼 스택 뷰
-            buttonStackView.topAnchor.constraint(equalTo: introduceStackView.bottomAnchor, constant: 10),
+            buttonStackView.topAnchor.constraint(equalTo: introduceStackView.bottomAnchor, constant: 3),
             buttonStackView.leadingAnchor.constraint(equalTo: introduceStackView.leadingAnchor),
             buttonStackView.trailingAnchor.constraint(equalTo: introduceStackView.trailingAnchor),
             buttonStackView.heightAnchor.constraint(equalToConstant: 26),
@@ -685,10 +697,10 @@ class ProfileDesignViewController: UIViewController {
             highlightView.centerXAnchor.constraint(equalTo: postsButton.centerXAnchor),
 
             // 컬렉션 스택뷰
-            collectionStackView.topAnchor.constraint(equalTo: buttonStackView.bottomAnchor, constant: 20),
+            collectionStackView.topAnchor.constraint(equalTo: buttonStackView.bottomAnchor, constant: 10),
             collectionStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             collectionStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            collectionStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -50),
+            collectionStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -35),
 
             // 하단 뷰
             bottomView.topAnchor.constraint(equalTo: collectionStackView.bottomAnchor),
@@ -697,7 +709,6 @@ class ProfileDesignViewController: UIViewController {
             bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
             // 하단 버튼
-//            bottomButton.topAnchor.constraint(equalTo: bottomView.topAnchor, constant: 10),
             bottomButton.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -35),
             bottomButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
@@ -776,6 +787,25 @@ class ProfileDesignViewController: UIViewController {
 
     @objc func bottomButtonTapped() {
         let vc = ProfileViewController()
+
+        let managedObjectContext = viewModel.context
+        vc.context = managedObjectContext
+        vc.container = viewModel.container
+        vc.userModel = viewModel.userModel
+
+        vc.dataChangedHandler = { [weak self] (newUser: UserModel) in
+            self?.userId.text = newUser.id
+            self?.nameLabel.text = newUser.name
+            self?.introduceLabel.text = newUser.introduction
+
+            do {
+                try managedObjectContext?.save()
+            } catch {
+                print("Error saving data to Core Data: \(error)")
+            }
+        }
+        viewModel.loadUser()
+
         let navController = UINavigationController(rootViewController: vc)
         navController.modalPresentationStyle = .fullScreen
         present(navController, animated: true)
@@ -815,8 +845,6 @@ class ProfileDesignViewController: UIViewController {
     }
 }
 
-// MARK: -
-
 extension ProfileDesignViewController: UIImagePickerControllerDelegate {
     //
 }
@@ -832,7 +860,6 @@ extension ProfileDesignViewController: UICollectionViewDelegate {
             showDeleteImageAlert(at: indexPath)
         } else if collectionView == taggedPostsCollectionView {
             // taggedPostsCollectionView에서 셀을 터치한 경우
-            // 처리할 내용 추가
         }
     }
 }
@@ -844,7 +871,7 @@ extension ProfileDesignViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == taggedPostsCollectionView {
-            return 0 // taggedPostsCollectionView에는 아이템이 없습니다.
+            return 0
         }
         postCount = images.count
         return postCount

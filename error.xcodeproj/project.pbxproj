@@ -7,14 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8146EFD281CD2EB846EE958E /* Pods_error.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5748CDF1AF69F102305B035 /* Pods_error.framework */; };
 		C72CFCF12AB163E500E01338 /* ProfileDesignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CFCF02AB163E500E01338 /* ProfileDesignViewController.swift */; };
 		C72CFCF32AB1E58700E01338 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CFCF22AB1E58700E01338 /* MenuViewController.swift */; };
 		C72FAC6C2AB37674005C41BA /* PostAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72FAC6B2AB37674005C41BA /* PostAddViewController.swift */; };
+		C7568B512ABAF31900D8B22C /* PracticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7568B502ABAF31900D8B22C /* PracticeViewController.swift */; };
+		C7568B532ABB02BA00D8B22C /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7568B522ABB02BA00D8B22C /* ProfileViewModel.swift */; };
 		C7E2FA682AB98BC600EEA17A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E2FA672AB98BC600EEA17A /* ProfileViewController.swift */; };
 		C7F6502F2AB064FB000BDDAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F6502E2AB064FB000BDDAF /* AppDelegate.swift */; };
 		C7F650312AB064FB000BDDAF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F650302AB064FB000BDDAF /* SceneDelegate.swift */; };
 		C7F650332AB064FB000BDDAF /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F650322AB064FB000BDDAF /* MainViewController.swift */; };
-		C7F650392AB064FB000BDDAF /* error.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C7F650372AB064FB000BDDAF /* error.xcdatamodeld */; };
+		C7F650392AB064FB000BDDAF /* UserModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C7F650372AB064FB000BDDAF /* UserModel.xcdatamodeld */; };
 		C7F6503B2AB064FC000BDDAF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C7F6503A2AB064FC000BDDAF /* Assets.xcassets */; };
 		C7F6503E2AB064FC000BDDAF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C7F6503C2AB064FC000BDDAF /* LaunchScreen.storyboard */; };
 		C7F650462AB06816000BDDAF /* TodoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F650452AB06816000BDDAF /* TodoViewController.swift */; };
@@ -23,9 +26,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		667D87B60989A5556BA74D3C /* Pods-error.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-error.debug.xcconfig"; path = "Target Support Files/Pods-error/Pods-error.debug.xcconfig"; sourceTree = "<group>"; };
+		B498C6412282102A4DCCE0AF /* Pods-error.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-error.release.xcconfig"; path = "Target Support Files/Pods-error/Pods-error.release.xcconfig"; sourceTree = "<group>"; };
+		B5748CDF1AF69F102305B035 /* Pods_error.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_error.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C72CFCF02AB163E500E01338 /* ProfileDesignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDesignViewController.swift; sourceTree = "<group>"; };
 		C72CFCF22AB1E58700E01338 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		C72FAC6B2AB37674005C41BA /* PostAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddViewController.swift; sourceTree = "<group>"; };
+		C7568B502ABAF31900D8B22C /* PracticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeViewController.swift; sourceTree = "<group>"; };
+		C7568B522ABB02BA00D8B22C /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		C7E2FA672AB98BC600EEA17A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		C7F6502B2AB064FB000BDDAF /* error.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = error.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7F6502E2AB064FB000BDDAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -45,12 +53,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8146EFD281CD2EB846EE958E /* Pods_error.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		87DC66D0456455E30FFD1CCE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				667D87B60989A5556BA74D3C /* Pods-error.debug.xcconfig */,
+				B498C6412282102A4DCCE0AF /* Pods-error.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		C7E2FA692AB9CBED00EEA17A /* Todo */ = {
 			isa = PBXGroup;
 			children = (
@@ -58,6 +76,7 @@
 				C7F650452AB06816000BDDAF /* TodoViewController.swift */,
 				C7F650472AB06824000BDDAF /* TodoAddViewController.swift */,
 				C7F650492AB06833000BDDAF /* TodoDoneViewController.swift */,
+				C7568B502ABAF31900D8B22C /* PracticeViewController.swift */,
 			);
 			path = Todo;
 			sourceTree = "<group>";
@@ -69,6 +88,7 @@
 				C72FAC6B2AB37674005C41BA /* PostAddViewController.swift */,
 				C7E2FA672AB98BC600EEA17A /* ProfileViewController.swift */,
 				C72CFCF22AB1E58700E01338 /* MenuViewController.swift */,
+				C7568B522ABB02BA00D8B22C /* ProfileViewModel.swift */,
 			);
 			path = Insta;
 			sourceTree = "<group>";
@@ -91,11 +111,21 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		C7E97F54031F0CBBBB8B6AEE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B5748CDF1AF69F102305B035 /* Pods_error.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C7F650222AB064FB000BDDAF = {
 			isa = PBXGroup;
 			children = (
 				C7F6502D2AB064FB000BDDAF /* error */,
 				C7F6502C2AB064FB000BDDAF /* Products */,
+				87DC66D0456455E30FFD1CCE /* Pods */,
+				C7E97F54031F0CBBBB8B6AEE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -115,7 +145,7 @@
 				C7E2FA6A2AB9CBF500EEA17A /* Insta */,
 				C7E2FA6C2AB9CC4600EEA17A /* Resource */,
 				C7F6503F2AB064FC000BDDAF /* Info.plist */,
-				C7F650372AB064FB000BDDAF /* error.xcdatamodeld */,
+				C7F650372AB064FB000BDDAF /* UserModel.xcdatamodeld */,
 			);
 			path = error;
 			sourceTree = "<group>";
@@ -127,9 +157,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C7F650422AB064FC000BDDAF /* Build configuration list for PBXNativeTarget "error" */;
 			buildPhases = (
+				5EA76DA3BA713A461A2C6848 /* [CP] Check Pods Manifest.lock */,
 				C7F650272AB064FB000BDDAF /* Sources */,
 				C7F650282AB064FB000BDDAF /* Frameworks */,
 				C7F650292AB064FB000BDDAF /* Resources */,
+				118CC85BDACC007C20586405 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -164,8 +196,6 @@
 				Base,
 			);
 			mainGroup = C7F650222AB064FB000BDDAF;
-			packageReferences = (
-			);
 			productRefGroup = C7F6502C2AB064FB000BDDAF /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -187,6 +217,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		118CC85BDACC007C20586405 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-error/Pods-error-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-error/Pods-error-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-error/Pods-error-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5EA76DA3BA713A461A2C6848 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-error-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		C7F650272AB064FB000BDDAF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -194,13 +266,15 @@
 			files = (
 				C72CFCF32AB1E58700E01338 /* MenuViewController.swift in Sources */,
 				C7F6504A2AB06833000BDDAF /* TodoDoneViewController.swift in Sources */,
-				C7F650392AB064FB000BDDAF /* error.xcdatamodeld in Sources */,
+				C7F650392AB064FB000BDDAF /* UserModel.xcdatamodeld in Sources */,
 				C72CFCF12AB163E500E01338 /* ProfileDesignViewController.swift in Sources */,
 				C72FAC6C2AB37674005C41BA /* PostAddViewController.swift in Sources */,
 				C7F650332AB064FB000BDDAF /* MainViewController.swift in Sources */,
 				C7E2FA682AB98BC600EEA17A /* ProfileViewController.swift in Sources */,
 				C7F650482AB06824000BDDAF /* TodoAddViewController.swift in Sources */,
 				C7F650462AB06816000BDDAF /* TodoViewController.swift in Sources */,
+				C7568B512ABAF31900D8B22C /* PracticeViewController.swift in Sources */,
+				C7568B532ABB02BA00D8B22C /* ProfileViewModel.swift in Sources */,
 				C7F6502F2AB064FB000BDDAF /* AppDelegate.swift in Sources */,
 				C7F650312AB064FB000BDDAF /* SceneDelegate.swift in Sources */,
 			);
@@ -270,7 +344,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -324,7 +398,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -336,6 +410,7 @@
 		};
 		C7F650432AB064FC000BDDAF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 667D87B60989A5556BA74D3C /* Pods-error.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -363,6 +438,7 @@
 		};
 		C7F650442AB064FC000BDDAF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B498C6412282102A4DCCE0AF /* Pods-error.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -412,13 +488,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		C7F650372AB064FB000BDDAF /* error.xcdatamodeld */ = {
+		C7F650372AB064FB000BDDAF /* UserModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				C7F650382AB064FB000BDDAF /* error.xcdatamodel */,
 			);
 			currentVersion = C7F650382AB064FB000BDDAF /* error.xcdatamodel */;
-			path = error.xcdatamodeld;
+			path = UserModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

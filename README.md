@@ -1,11 +1,11 @@
-###### SJ-todoList2
-# ⭐️ TodoList Project
-##### TodoList 앱 만들기(메모 작성 및 수정, 데이터 저장)
-##### 진행기간 : 2023.08.22~2023.09.01
+###### SJ-Todo,InstagramProfilePage
+# ⭐️ Todo,InstagramProfilePage Project
+##### Todo 및 InstagramProfilePage 앱 만들기
+##### 진행기간 : 2023.09.12~2023.09.22
 -----------------------
 # 📌 앱 설명
 
-1. 노스토리보드(코드베이스)로 코드 작성
+1. 코드베이스
    
 2. 메인 controller
 <br/> - 버튼을 통해 TodoViewController
@@ -27,5 +27,15 @@
 5. DoneViewController
 <br/> - 셀에 체크마크 표시될시 tableViewCell에 추가 
 
+6. ProfileDesignViewController
+<br/> - 인스타그램 프로필 메인페이지, collectionView 내 선택 이미지 등록 및 이미지 터치시 삭제 알럿
+
+7. PostAddViewController
+<br/> - 인스타그램 프로필 메인페이지 collectionView 내 추가될 이미지 저장
+
+8. ProfileViewController
+<br/> - 사용자 id, 이름, 소개(설명) 작성 및 수정 페이지
+
+
 # ● 앱 구성
-<img width="689" alt="스크린샷 2023-09-01 오후 12 38 26" src="https://github.com/dnjs012452/SJ-todoList2/assets/139090550/e9b3ea4f-6ebb-4bb8-aa1e-590fe519cb99">
+<img width="689" alt="스크린샷 2023-09-22 오후 12.25.56" src="https://github.com/dnjs012452/SJ-todoList2/assets/139090550/e9b3ea4f-6ebb-4bb8-aa1e-590fe519cb99">

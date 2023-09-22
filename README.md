@@ -38,5 +38,4 @@
 
 
 # ● 앱 구성
-<img width="689" alt="![스크린샷 2023-09-22 오후 12 25 56](https://github.com/dnjs012452/SJ-InstagramProfilePage/assets/139090550/b210d100-e7df-4321-8b5f-2a6618bed45e)
-" src="https://github.com/dnjs012452/SJ-todoList2/assets/139090550/e9b3ea4f-6ebb-4bb8-aa1e-590fe519cb99">
+<img width="689" src="https://github.com/dnjs012452/SJ-todoList2/assets/139090550/e9b3ea4f-6ebb-4bb8-aa1e-590fe519cb99">

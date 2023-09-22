@@ -38,4 +38,4 @@
 
 
 # ● 앱 구성
-<img width="689" src="https://github.com/dnjs012452/SJ-todoList2/assets/139090550/e9b3ea4f-6ebb-4bb8-aa1e-590fe519cb99">
+<img width="689" alt="Image" src="https://github.com/dnjs012452/SJ-InstagramProfilePage/assets/139090550/f40e9a2c-f86d-4fbd-a856-5e3c41634a18">

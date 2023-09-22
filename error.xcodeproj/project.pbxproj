@@ -11,7 +11,6 @@
 		C72CFCF12AB163E500E01338 /* ProfileDesignViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CFCF02AB163E500E01338 /* ProfileDesignViewController.swift */; };
 		C72CFCF32AB1E58700E01338 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CFCF22AB1E58700E01338 /* MenuViewController.swift */; };
 		C72FAC6C2AB37674005C41BA /* PostAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72FAC6B2AB37674005C41BA /* PostAddViewController.swift */; };
-		C7568B512ABAF31900D8B22C /* PracticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7568B502ABAF31900D8B22C /* PracticeViewController.swift */; };
 		C7568B532ABB02BA00D8B22C /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7568B522ABB02BA00D8B22C /* ProfileViewModel.swift */; };
 		C7E2FA682AB98BC600EEA17A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E2FA672AB98BC600EEA17A /* ProfileViewController.swift */; };
 		C7F6502F2AB064FB000BDDAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F6502E2AB064FB000BDDAF /* AppDelegate.swift */; };
@@ -32,7 +31,6 @@
 		C72CFCF02AB163E500E01338 /* ProfileDesignViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDesignViewController.swift; sourceTree = "<group>"; };
 		C72CFCF22AB1E58700E01338 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		C72FAC6B2AB37674005C41BA /* PostAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddViewController.swift; sourceTree = "<group>"; };
-		C7568B502ABAF31900D8B22C /* PracticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PracticeViewController.swift; sourceTree = "<group>"; };
 		C7568B522ABB02BA00D8B22C /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		C7E2FA672AB98BC600EEA17A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		C7F6502B2AB064FB000BDDAF /* error.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = error.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,7 +74,6 @@
 				C7F650452AB06816000BDDAF /* TodoViewController.swift */,
 				C7F650472AB06824000BDDAF /* TodoAddViewController.swift */,
 				C7F650492AB06833000BDDAF /* TodoDoneViewController.swift */,
-				C7568B502ABAF31900D8B22C /* PracticeViewController.swift */,
 			);
 			path = Todo;
 			sourceTree = "<group>";
@@ -273,7 +270,6 @@
 				C7E2FA682AB98BC600EEA17A /* ProfileViewController.swift in Sources */,
 				C7F650482AB06824000BDDAF /* TodoAddViewController.swift in Sources */,
 				C7F650462AB06816000BDDAF /* TodoViewController.swift in Sources */,
-				C7568B512ABAF31900D8B22C /* PracticeViewController.swift in Sources */,
 				C7568B532ABB02BA00D8B22C /* ProfileViewModel.swift in Sources */,
 				C7F6502F2AB064FB000BDDAF /* AppDelegate.swift in Sources */,
 				C7F650312AB064FB000BDDAF /* SceneDelegate.swift in Sources */,

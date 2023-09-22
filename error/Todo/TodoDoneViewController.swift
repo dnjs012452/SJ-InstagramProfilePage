@@ -2,11 +2,15 @@
 
 import UIKit
 
-class TodoDoneViewController: UIViewController {
+class TodoDoneViewController: UIViewController, UITableViewDataSource {
+    var tasks: [Task] = []
+
     private lazy var doneTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .white
+        tableView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
 
         return tableView
     }()
@@ -14,10 +18,21 @@ class TodoDoneViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-//        UIColor(red: 248/255, green: 240/255, blue: 229/255, alpha: 1) // #F8F0E5
 
         setupNavigationBar()
         setupViews()
+        setUpConstraints()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if let data = UserDefaults.standard.data(forKey: "items"),
+           let savedItems = try? JSONDecoder().decode([[Task]].self, from: data)
+        {
+            tasks = savedItems.flatMap { $0 }.filter { $0.done }
+            doneTableView.reloadData()
+        }
     }
 
     private func setupViews() {
@@ -39,5 +54,20 @@ class TodoDoneViewController: UIViewController {
             doneTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             doneTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return tasks.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        cell.textLabel?.text = tasks[indexPath.row].title
+
+        return cell
     }
 }

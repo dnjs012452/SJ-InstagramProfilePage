@@ -73,22 +73,10 @@ class MainViewController: UIViewController {
         
         return button
     }()
-    
-    private lazy var practicePageButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        button.setTitleColor(.black, for: .normal)
-        button.setTitle("투두 연습 페이지", for: .normal)
-        button.titleLabel?.font = UIFont(name: "Helvetica", size: 17)
-        
-        button.addTarget(self, action: #selector(practicePageButtonTapped), for: .touchUpInside)
-        
-        return button
-    }() // 버튼 스택뷰
-    
+
+    // 버튼 스택뷰
     private lazy var buttonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [todoButton, doneButton, profilePageButton, practicePageButton])
+        let stackView = UIStackView(arrangedSubviews: [todoButton, doneButton, profilePageButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         stackView.axis = .vertical
@@ -198,11 +186,6 @@ class MainViewController: UIViewController {
    
     @objc private func profilePageButtonTapped() {
         let doneViewController = ProfileDesignViewController()
-        navigationController?.pushViewController(doneViewController, animated: true)
-    }
-    
-    @objc private func practicePageButtonTapped() {
-        let doneViewController = PracticeViewController()
         navigationController?.pushViewController(doneViewController, animated: true)
     }
 }
